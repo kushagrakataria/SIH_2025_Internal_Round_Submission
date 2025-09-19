@@ -1,0 +1,74 @@
+{
+  "name": "Safe Traveler Buddy",
+  "short_name": "SafeTraveler",
+  "description": "Your comprehensive safety companion for traveling in Northeast India",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "safety", "navigation"],
+  "lang": "en-US",
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile Dashboard View"
+    }
+  ],
+  "features": [
+    "Emergency SOS",
+    "Safety Zones",
+    "Real-time Alerts",
+    "Trip Management",
+    "Digital ID Storage"
+  ],
+  "shortcuts": [
+    {
+      "name": "Emergency SOS",
+      "short_name": "SOS",
+      "description": "Quick access to emergency services",
+      "url": "/dashboard?action=sos",
+      "icons": [
+        {
+          "src": "/sos-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Safety Map",
+      "short_name": "Map",
+      "description": "View safety zones and alerts",
+      "url": "/dashboard?tab=map",
+      "icons": [
+        {
+          "src": "/map-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

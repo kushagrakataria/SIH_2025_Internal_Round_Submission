@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import BottomNavigation from "@/components/BottomNavigation";
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -18,7 +19,12 @@ import {
   User,
   Contact,
   CheckCircle,
-  Settings
+  Settings,
+  Camera,
+  MapPin,
+  Heart,
+  CreditCard,
+  Calendar
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -29,6 +35,17 @@ interface FormData {
   dateOfBirth: string;
   nationality: string;
   address: string;
+  
+  // Document Information
+  aadharNumber: string;
+  passportNumber: string;
+  
+  // Trip Information
+  tripStartDate: string;
+  tripEndDate: string;
+  destinations: string;
+  plannedRoute: string;
+  purpose: string;
   
   // Emergency Contacts
   emergencyContact1: {
@@ -62,6 +79,13 @@ const ProfileSetup = () => {
     dateOfBirth: "",
     nationality: "Indian",
     address: "",
+    aadharNumber: "",
+    passportNumber: "",
+    tripStartDate: "",
+    tripEndDate: "",
+    destinations: "",
+    plannedRoute: "",
+    purpose: "",
     emergencyContact1: { name: "", relationship: "", phone: "", email: "" },
     emergencyContact2: { name: "", relationship: "", phone: "", email: "" },
     locationSharing: true,
@@ -560,6 +584,9 @@ const ProfileSetup = () => {
           </div>
         </div>
       </div>
+
+      {/* Global Bottom Navigation */}
+      <BottomNavigation />
     </div>
   );
 };

@@ -10,6 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import BottomNavigation from "@/components/BottomNavigation";
 import { 
   ArrowLeft,
   User,
@@ -28,9 +29,12 @@ import {
   Copy,
   Lock,
   Smartphone,
-  Mail
+  Mail,
+  CreditCard,
+  MapPin
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface UserProfile {
   id: string;
@@ -71,62 +75,119 @@ const Profile = () => {
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { currentUser, userProfile, updateProfile, signOut } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showDigitalId, setShowDigitalId] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Mock profile data - in production this would come from your backend
+  // Load user profile data from Firebase Auth context
   useEffect(() => {
-    const mockProfile: UserProfile = {
-      id: 'user_123',
-      name: 'John Doe',
-      email: 'john.doe@email.com',
-      phone: '+91 9876543210',
-      digitalId: 'TST2024001',
-      nationality: 'Indian',
-      passportNumber: 'A1234567',
-      emergencyContacts: [
-        {
-          id: 'contact_1',
-          name: 'Jane Doe',
-          phone: '+91 9876543211',
-          email: 'jane.doe@email.com',
-          relationship: 'Spouse',
-          isPrimary: true
-        },
-        {
-          id: 'contact_2',
-          name: 'Emergency Services',
-          phone: '100',
-          relationship: 'Emergency',
-          isPrimary: false
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+
+    if (userProfile) {
+      // Map Firebase user profile to local profile structure
+      const mappedProfile: UserProfile = {
+        id: currentUser.uid,
+        name: userProfile.name || currentUser.displayName || 'Unknown User',
+        email: currentUser.email || '',
+        phone: userProfile.phone || '',
+        digitalId: userProfile.digitalId || `STB${Date.now().toString().slice(-6)}`,
+        nationality: (userProfile as any)?.nationality || 'Indian',
+        passportNumber: (userProfile as any)?.passportNumber || '',
+        emergencyContacts: userProfile.emergencyContacts || [
+          {
+            id: 'contact_1',
+            name: '',
+            phone: '',
+            email: '',
+            relationship: 'Family',
+            isPrimary: true
+          }
+        ],
+        preferences: {
+          language: userProfile.preferences?.language || 'en',
+          notifications: {
+            geofencing: userProfile.preferences?.notifications?.emergencyAlerts ?? true,
+            weather: userProfile.preferences?.notifications?.safetyUpdates ?? true,
+            security: userProfile.preferences?.notifications?.tripReminders ?? true,
+            emergency: userProfile.preferences?.notifications?.emergencyAlerts ?? true,
+          },
+          privacy: {
+            shareLocation: userProfile.preferences?.privacy?.shareLocation ?? true,
+            allowTracking: userProfile.preferences?.privacy?.publicProfile ?? true,
+          }
         }
-      ],
-      preferences: {
-        language: i18n.language || 'en',
-        notifications: {
-          geofencing: true,
-          weather: true,
-          security: true,
-          emergency: true
-        },
-        privacy: {
-          shareLocation: true,
-          allowTracking: true
+      };
+      setProfile(mappedProfile);
+    } else {
+      // Create default profile for new users
+      const defaultProfile: UserProfile = {
+        id: currentUser.uid,
+        name: currentUser.displayName || 'New User',
+        email: currentUser.email || '',
+        phone: '',
+        digitalId: `STB${Date.now().toString().slice(-6)}`,
+        nationality: 'Indian',
+        passportNumber: '',
+        emergencyContacts: [
+          {
+            id: 'contact_1',
+            name: '',
+            phone: '',
+            email: '',
+            relationship: 'Family',
+            isPrimary: true
+          }
+        ],
+        preferences: {
+          language: 'en',
+          notifications: {
+            geofencing: true,
+            weather: true,
+            security: true,
+            emergency: true,
+          },
+          privacy: {
+            shareLocation: true,
+            allowTracking: true,
+          }
         }
-      }
-    };
-    setProfile(mockProfile);
-  }, [i18n.language]);
+      };
+      setProfile(defaultProfile);
+    }
+  }, [currentUser, userProfile, navigate]);
 
   const handleSaveProfile = async () => {
     if (!profile) return;
     
     setIsLoading(true);
     try {
-      // In production: API call to save profile
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Update Firebase user profile with mapped properties
+      await updateProfile({
+        name: profile.name,
+        phone: profile.phone,
+        digitalId: profile.digitalId,
+        emergencyContacts: profile.emergencyContacts.map(contact => ({
+          ...contact,
+          createdAt: new Date().toISOString()
+        })),
+        preferences: {
+          language: profile.preferences.language,
+          notifications: {
+            emergencyAlerts: profile.preferences.notifications.emergency,
+            tripReminders: profile.preferences.notifications.geofencing,
+            safetyUpdates: profile.preferences.notifications.security
+          },
+          privacy: {
+            shareLocation: profile.preferences.privacy.shareLocation,
+            publicProfile: profile.preferences.privacy.allowTracking
+          }
+        }
+      });
       
       setIsEditing(false);
       toast({
@@ -173,6 +234,24 @@ const Profile = () => {
         title: "Copied!",
         description: "Digital ID copied to clipboard.",
         variant: "default",
+      });
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out.",
+        variant: "default",
+      });
+      navigate('/login');
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+        variant: "destructive",
       });
     }
   };
@@ -594,6 +673,9 @@ const Profile = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Global Bottom Navigation */}
+      <BottomNavigation />
     </div>
   );
 };

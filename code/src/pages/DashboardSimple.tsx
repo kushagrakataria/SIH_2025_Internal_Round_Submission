@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import PoliceAdminDashboard from "@/components/PoliceAdminDashboard";
+import BottomNavigation from "@/components/BottomNavigation";
+import SimpleSafetyMap from "@/components/SimpleSafetyMap";
 import { 
   Shield, 
   AlertTriangle, 
@@ -18,13 +22,17 @@ import {
   Home,
   Users,
   Activity,
-  Menu
+  Menu,
+  Map,
+  UserCheck
 } from "lucide-react";
 
 const DashboardSimple = () => {
   const navigate = useNavigate();
+  const { currentUser, userProfile, signOut } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [dashboardMode, setDashboardMode] = useState<'tourist' | 'police'>('tourist');
 
   useEffect(() => {
     setMounted(true);
@@ -33,11 +41,30 @@ const DashboardSimple = () => {
   }, []);
 
   const handleSOS = () => {
-    alert("🚨 Emergency SOS Activated!\n\nThis would normally:\n- Send alerts to emergency contacts\n- Log incident to Firebase\n- Contact local authorities\n- Share location data");
+    const alertMessage = userProfile 
+      ? `🚨 Emergency SOS Activated for ${userProfile.name}!\n\nThis would normally:\n- Send alerts to emergency contacts\n- Log incident to Firebase\n- Contact local authorities\n- Share location data\n- Use Digital ID: ${userProfile.digitalId}`
+      : "🚨 Emergency SOS Activated!\n\nThis would normally:\n- Send alerts to emergency contacts\n- Log incident to Firebase\n- Contact local authorities\n- Share location data";
+    alert(alertMessage);
   };
 
   const handleLogin = () => {
-    navigate('/login');
+    if (currentUser) {
+      signOut();
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleProfileClick = () => {
+    if (currentUser) {
+      navigate('/profile');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const toggleDashboardMode = () => {
+    setDashboardMode(prev => prev === 'tourist' ? 'police' : 'tourist');
   };
 
   // Show loading state briefly
@@ -79,23 +106,75 @@ const DashboardSimple = () => {
         </div>
 
         {/* Main Header */}
-        <div className="flex items-center justify-between mb-6 pt-2">
-          <div>
-            <h1 className="heading-mobile text-foreground">Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}</h1>
-            <p className="text-muted-foreground text-sm">Stay safe on your journey</p>
+        <div className="flex items-start justify-between mb-6 pt-2">
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold text-foreground mb-1">
+              Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}
+              {userProfile && `, ${userProfile.name.split(' ')[0]}`}
+            </h1>
+            <p className="text-muted-foreground text-sm mb-2">
+              {currentUser ? 'Stay safe on your journey' : 'Please login to access full features'}
+            </p>
+            {userProfile && (
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary" className="text-xs">
+                  <UserCheck className="w-3 h-3 mr-1" />
+                  ID: {userProfile.digitalId}
+                </Badge>
+                {userProfile.isProfileComplete && (
+                  <Badge variant="default" className="text-xs bg-green-500">
+                    ✓ Verified
+                  </Badge>
+                )}
+              </div>
+            )}
           </div>
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="rounded-full bg-muted/50">
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs px-3 py-1 h-8"
+              onClick={toggleDashboardMode}
+            >
+              {dashboardMode === 'tourist' ? (
+                <>
+                  <Shield className="w-3 h-3 mr-1" />
+                  Police
+                </>
+              ) : (
+                <>
+                  <User className="w-3 h-3 mr-1" />
+                  Tourist
+                </>
+              )}
+            </Button>
+            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-muted/50">
               <Bell className="w-5 h-5 text-foreground" />
             </Button>
-            <Button variant="ghost" size="icon" className="rounded-full bg-muted/50" onClick={handleLogin}>
-              <User className="w-5 h-5 text-foreground" />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-10 w-10 rounded-full bg-muted/50" 
+              onClick={handleProfileClick}
+            >
+              {currentUser ? (
+                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                  <span className="text-sm text-white font-medium">
+                    {userProfile?.name?.charAt(0) || currentUser.email?.charAt(0)}
+                  </span>
+                </div>
+              ) : (
+                <User className="w-5 h-5 text-foreground" />
+              )}
             </Button>
           </div>
         </div>
 
-        {/* SOS Emergency Button */}
-        <Card className="mb-6 bg-gradient-to-r from-red-500 to-red-600 border-none shadow-lg">
+        {/* Dashboard Content - Conditional Rendering */}
+        {dashboardMode === 'tourist' ? (
+          <>
+            {/* SOS Emergency Button */}
+            <Card className="mb-6 bg-gradient-to-r from-red-500 to-red-600 border-none shadow-lg">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -221,6 +300,11 @@ const DashboardSimple = () => {
           </CardContent>
         </Card>
 
+        {/* Safety Map */}
+        <div className="mb-6">
+          <SimpleSafetyMap />
+        </div>
+
         {/* System Status */}
         <Card className="mb-20 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
           <CardHeader className="pb-3">
@@ -247,29 +331,19 @@ const DashboardSimple = () => {
             </div>
           </CardContent>
         </Card>
+          </>
+        ) : (
+          <>
+            {/* Police/Admin Dashboard */}
+            <div className="mb-20">
+              <PoliceAdminDashboard height="600px" />
+            </div>
+          </>
+        )}
       </div>
 
-      {/* Mobile Bottom Navigation */}
-      <div className="mobile-nav-container">
-        <div className="mobile-nav-grid">
-          <button className="mobile-nav-item active" onClick={() => navigate('/dashboard')}>
-            <Home className="w-5 h-5" />
-            <span>Home</span>
-          </button>
-          <button className="mobile-nav-item" onClick={() => navigate('/trips')}>
-            <Navigation className="w-5 h-5" />
-            <span>Trips</span>
-          </button>
-          <button className="mobile-nav-item" onClick={() => navigate('/alerts')}>
-            <AlertTriangle className="w-5 h-5" />
-            <span>Alerts</span>
-          </button>
-          <button className="mobile-nav-item" onClick={() => navigate('/profile')}>
-            <User className="w-5 h-5" />
-            <span>Profile</span>
-          </button>
-        </div>
-      </div>
+      {/* Global Bottom Navigation with SOS */}
+      <BottomNavigation onSOS={handleSOS} />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import BottomNavigation from "@/components/BottomNavigation";
 import { 
   ArrowLeft,
   Bell,
@@ -379,6 +380,9 @@ const AlertsFeed = () => {
           )}
         </div>
       </div>
+
+      {/* Global Bottom Navigation */}
+      <BottomNavigation />
     </div>
   );
 };

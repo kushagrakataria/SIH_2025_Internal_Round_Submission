@@ -5,6 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import BottomNavigation from "@/components/BottomNavigation";
 import { 
   MapPin, 
   Clock, 
@@ -18,10 +24,15 @@ import {
   Users,
   ArrowLeft,
   X,
-  Shield
+  Shield,
+  Plus,
+  Edit3,
+  Trash2,
+  Save
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface TripItinerary {
   id: string;
@@ -53,64 +64,102 @@ const TripManagement = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [currentTrip, setCurrentTrip] = useState<TripItinerary | null>(null);
+  const [allTrips, setAllTrips] = useState<TripItinerary[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showNewTripDialog, setShowNewTripDialog] = useState(false);
+  const [editingTrip, setEditingTrip] = useState<TripItinerary | null>(null);
+  
+  // New trip form state
+  const [newTripForm, setNewTripForm] = useState({
+    name: '',
+    startDate: '',
+    endDate: '',
+    destinations: '',
+    emergencyContacts: '',
+    notes: ''
+  });
 
   // Mock trip data - in production this would come from your backend
   useEffect(() => {
-    const mockTrip: TripItinerary = {
-      id: 'trip_001',
-      name: 'Mumbai Cultural Tour',
-      startDate: '2024-09-12T09:00:00Z',
-      endDate: '2024-09-12T18:00:00Z',
-      status: 'active',
-      emergencyContacts: ['contact_1', 'contact_2'],
-      currentLocation: {
-        lat: 19.0760,
-        lng: 72.8777,
-        address: 'Gateway of India, Mumbai'
+    const mockTrips: TripItinerary[] = [
+      {
+        id: 'trip_001',
+        name: 'Northeast Cultural Tour',
+        startDate: '2024-09-12T09:00:00Z',
+        endDate: '2024-09-12T18:00:00Z',
+        status: 'active',
+        emergencyContacts: ['contact_1', 'contact_2'],
+        currentLocation: {
+          lat: 26.1445,
+          lng: 91.7362,
+          address: 'Guwahati, Assam'
+        },
+        destinations: [
+          {
+            id: 'dest_1',
+            name: 'Kamakhya Temple',
+            address: 'Nilachal Hills, Guwahati, Assam',
+            arrivalTime: '2024-09-12T09:00:00Z',
+            departureTime: '2024-09-12T11:00:00Z',
+            status: 'completed',
+            safetyRating: 'safe'
+          },
+          {
+            id: 'dest_2',
+            name: 'Umananda Temple',
+            address: 'Peacock Island, Guwahati, Assam',
+            arrivalTime: '2024-09-12T11:30:00Z',
+            departureTime: '2024-09-12T13:00:00Z',
+            status: 'current',
+            safetyRating: 'safe'
+          },
+          {
+            id: 'dest_3',
+            name: 'Assam State Museum',
+            address: 'Dighalipukhuri, Guwahati, Assam',
+            arrivalTime: '2024-09-12T14:00:00Z',
+            departureTime: '2024-09-12T16:00:00Z',
+            status: 'pending',
+            safetyRating: 'moderate',
+            notes: 'Crowded area - stay alert'
+          },
+          {
+            id: 'dest_4',
+            name: 'Brahmaputra River Cruise',
+            address: 'Sukreswar Ghat, Guwahati, Assam',
+            arrivalTime: '2024-09-12T16:30:00Z',
+            departureTime: '2024-09-12T18:00:00Z',
+            status: 'pending',
+            safetyRating: 'safe'
+          }
+        ]
       },
-      destinations: [
-        {
-          id: 'dest_1',
-          name: 'Gateway of India',
-          address: 'Apollo Bandar, Colaba, Mumbai',
-          arrivalTime: '2024-09-12T09:00:00Z',
-          departureTime: '2024-09-12T11:00:00Z',
-          status: 'completed',
-          safetyRating: 'safe'
-        },
-        {
-          id: 'dest_2',
-          name: 'Chhatrapati Shivaji Terminus',
-          address: 'Fort, Mumbai',
-          arrivalTime: '2024-09-12T11:30:00Z',
-          departureTime: '2024-09-12T13:00:00Z',
-          status: 'current',
-          safetyRating: 'safe'
-        },
-        {
-          id: 'dest_3',
-          name: 'Crawford Market',
-          address: 'Dadabhai Naoroji Rd, Fort, Mumbai',
-          arrivalTime: '2024-09-12T14:00:00Z',
-          departureTime: '2024-09-12T16:00:00Z',
-          status: 'pending',
-          safetyRating: 'moderate',
-          notes: 'Crowded area - stay alert'
-        },
-        {
-          id: 'dest_4',
-          name: 'Marine Drive',
-          address: 'Marine Dr, Mumbai',
-          arrivalTime: '2024-09-12T16:30:00Z',
-          departureTime: '2024-09-12T18:00:00Z',
-          status: 'pending',
-          safetyRating: 'safe'
-        }
-      ]
-    };
-    setCurrentTrip(mockTrip);
+      {
+        id: 'trip_002',
+        name: 'Kaziranga Wildlife Safari',
+        startDate: '2024-09-15T06:00:00Z',
+        endDate: '2024-09-15T18:00:00Z',
+        status: 'planned',
+        emergencyContacts: ['contact_1'],
+        destinations: [
+          {
+            id: 'dest_5',
+            name: 'Kaziranga National Park',
+            address: 'Golaghat, Assam',
+            arrivalTime: '2024-09-15T06:00:00Z',
+            departureTime: '2024-09-15T18:00:00Z',
+            status: 'pending',
+            safetyRating: 'safe',
+            notes: 'Early morning safari recommended'
+          }
+        ]
+      }
+    ];
+    
+    setAllTrips(mockTrips);
+    setCurrentTrip(mockTrips.find(trip => trip.status === 'active') || null);
   }, []);
 
   const handleEndTrip = async () => {
@@ -175,6 +224,121 @@ const TripManagement = () => {
     }
   };
 
+  // Enhanced trip management functions
+  const handleCreateNewTrip = async () => {
+    if (!newTripForm.name || !newTripForm.startDate || !newTripForm.endDate) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const newTrip: TripItinerary = {
+        id: `trip_${Date.now()}`,
+        name: newTripForm.name,
+        startDate: newTripForm.startDate,
+        endDate: newTripForm.endDate,
+        status: 'planned',
+        emergencyContacts: newTripForm.emergencyContacts.split(',').map(c => c.trim()),
+        destinations: newTripForm.destinations.split(',').map((dest, index) => ({
+          id: `dest_${Date.now()}_${index}`,
+          name: dest.trim(),
+          address: dest.trim(),
+          arrivalTime: newTripForm.startDate,
+          departureTime: newTripForm.endDate,
+          status: 'pending' as const,
+          safetyRating: 'safe' as const,
+          notes: newTripForm.notes
+        }))
+      };
+
+      // In production: API call to create trip
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setAllTrips(prev => [...prev, newTrip]);
+      setNewTripForm({
+        name: '',
+        startDate: '',
+        endDate: '',
+        destinations: '',
+        emergencyContacts: '',
+        notes: ''
+      });
+      setShowNewTripDialog(false);
+      
+      toast({
+        title: "Trip Created Successfully",
+        description: `${newTrip.name} has been added to your trips.`,
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create trip. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteTrip = async (tripId: string) => {
+    setIsLoading(true);
+    try {
+      // In production: API call to delete trip
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setAllTrips(prev => prev.filter(trip => trip.id !== tripId));
+      if (currentTrip?.id === tripId) {
+        setCurrentTrip(null);
+      }
+      
+      toast({
+        title: "Trip Deleted",
+        description: "Trip has been permanently removed.",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete trip. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleStartTrip = async (trip: TripItinerary) => {
+    setIsLoading(true);
+    try {
+      // In production: API call to start trip
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const updatedTrip = { ...trip, status: 'active' as const };
+      setCurrentTrip(updatedTrip);
+      setAllTrips(prev => prev.map(t => t.id === trip.id ? updatedTrip : t));
+      
+      toast({
+        title: "Trip Started",
+        description: `${trip.name} is now active. Stay safe!`,
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to start trip. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'success';
@@ -200,21 +364,285 @@ const TripManagement = () => {
     return (completedCount / currentTrip.destinations.length) * 100;
   };
 
-  if (!currentTrip) {
+  if (!currentTrip && allTrips.length === 0) {
     return (
-      <div className="mobile-screen bg-background flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardContent className="p-8 text-center">
-            <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">{t('trip.noActiveTrip')}</h3>
-            <p className="text-muted-foreground mb-4">
-              Start a new trip to begin safety monitoring and tracking.
-            </p>
-            <Button onClick={() => navigate('/dashboard')}>
-              Back to Dashboard
+      <div className="mobile-screen bg-background">
+        <div className="mobile-container">
+          {/* Header */}
+          <div className="flex items-center justify-between py-4 px-1">
+            <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
+              <ArrowLeft className="w-5 h-5" />
             </Button>
-          </CardContent>
-        </Card>
+            <h1 className="text-xl font-bold">Trip Management</h1>
+            <div className="w-10" />
+          </div>
+
+          {/* No trips state */}
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <Card className="max-w-md w-full">
+              <CardContent className="p-8 text-center">
+                <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">No Trips Found</h3>
+                <p className="text-muted-foreground mb-6">
+                  Create your first trip to start safety monitoring and tracking.
+                </p>
+                <Dialog open={showNewTripDialog} onOpenChange={setShowNewTripDialog}>
+                  <DialogTrigger asChild>
+                    <Button className="w-full">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create New Trip
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Create New Trip</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="tripName">Trip Name *</Label>
+                        <Input
+                          id="tripName"
+                          value={newTripForm.name}
+                          onChange={(e) => setNewTripForm(prev => ({ ...prev, name: e.target.value }))}
+                          placeholder="e.g., Northeast Cultural Tour"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="startDate">Start Date *</Label>
+                          <Input
+                            id="startDate"
+                            type="datetime-local"
+                            value={newTripForm.startDate}
+                            onChange={(e) => setNewTripForm(prev => ({ ...prev, startDate: e.target.value }))}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="endDate">End Date *</Label>
+                          <Input
+                            id="endDate"
+                            type="datetime-local"
+                            value={newTripForm.endDate}
+                            onChange={(e) => setNewTripForm(prev => ({ ...prev, endDate: e.target.value }))}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label htmlFor="destinations">Destinations (comma-separated)</Label>
+                        <Input
+                          id="destinations"
+                          value={newTripForm.destinations}
+                          onChange={(e) => setNewTripForm(prev => ({ ...prev, destinations: e.target.value }))}
+                          placeholder="e.g., Guwahati, Kaziranga, Shillong"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="emergencyContacts">Emergency Contacts (comma-separated)</Label>
+                        <Input
+                          id="emergencyContacts"
+                          value={newTripForm.emergencyContacts}
+                          onChange={(e) => setNewTripForm(prev => ({ ...prev, emergencyContacts: e.target.value }))}
+                          placeholder="e.g., +91-9876543210, +91-9876543211"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="notes">Additional Notes</Label>
+                        <Textarea
+                          id="notes"
+                          value={newTripForm.notes}
+                          onChange={(e) => setNewTripForm(prev => ({ ...prev, notes: e.target.value }))}
+                          placeholder="Any special requirements or notes..."
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <Button 
+                          variant="outline" 
+                          className="flex-1"
+                          onClick={() => setShowNewTripDialog(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button 
+                          className="flex-1"
+                          onClick={handleCreateNewTrip}
+                          disabled={isLoading}
+                        >
+                          {isLoading ? 'Creating...' : 'Create Trip'}
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+        <BottomNavigation />
+      </div>
+    );
+  }
+
+  // Show trip list if no active trip but trips exist
+  if (!currentTrip && allTrips.length > 0) {
+    return (
+      <div className="mobile-screen bg-background">
+        <div className="mobile-container">
+          {/* Header */}
+          <div className="flex items-center justify-between py-4 px-1 mb-4">
+            <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <h1 className="text-xl font-bold">Your Trips</h1>
+            <Dialog open={showNewTripDialog} onOpenChange={setShowNewTripDialog}>
+              <DialogTrigger asChild>
+                <Button size="icon">
+                  <Plus className="w-4 h-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Create New Trip</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="tripName">Trip Name *</Label>
+                    <Input
+                      id="tripName"
+                      value={newTripForm.name}
+                      onChange={(e) => setNewTripForm(prev => ({ ...prev, name: e.target.value }))}
+                      placeholder="e.g., Northeast Cultural Tour"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="startDate">Start Date *</Label>
+                      <Input
+                        id="startDate"
+                        type="datetime-local"
+                        value={newTripForm.startDate}
+                        onChange={(e) => setNewTripForm(prev => ({ ...prev, startDate: e.target.value }))}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="endDate">End Date *</Label>
+                      <Input
+                        id="endDate"
+                        type="datetime-local"
+                        value={newTripForm.endDate}
+                        onChange={(e) => setNewTripForm(prev => ({ ...prev, endDate: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="destinations">Destinations (comma-separated)</Label>
+                    <Input
+                      id="destinations"
+                      value={newTripForm.destinations}
+                      onChange={(e) => setNewTripForm(prev => ({ ...prev, destinations: e.target.value }))}
+                      placeholder="e.g., Guwahati, Kaziranga, Shillong"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="emergencyContacts">Emergency Contacts (comma-separated)</Label>
+                    <Input
+                      id="emergencyContacts"
+                      value={newTripForm.emergencyContacts}
+                      onChange={(e) => setNewTripForm(prev => ({ ...prev, emergencyContacts: e.target.value }))}
+                      placeholder="e.g., +91-9876543210, +91-9876543211"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="notes">Additional Notes</Label>
+                    <Textarea
+                      id="notes"
+                      value={newTripForm.notes}
+                      onChange={(e) => setNewTripForm(prev => ({ ...prev, notes: e.target.value }))}
+                      placeholder="Any special requirements or notes..."
+                    />
+                  </div>
+                  <div className="flex gap-3">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => setShowNewTripDialog(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      className="flex-1"
+                      onClick={handleCreateNewTrip}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? 'Creating...' : 'Create Trip'}
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          {/* Trip List */}
+          <div className="space-y-4 mb-20">
+            {allTrips.map((trip) => (
+              <Card key={trip.id} className="bg-card/80 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-lg">{trip.name}</CardTitle>
+                      <CardDescription>
+                        {new Date(trip.startDate).toLocaleDateString()} - {new Date(trip.endDate).toLocaleDateString()}
+                      </CardDescription>
+                    </div>
+                    <Badge variant={getStatusColor(trip.status) as any}>
+                      {trip.status.charAt(0).toUpperCase() + trip.status.slice(1)}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MapPin className="w-4 h-4" />
+                      {trip.destinations.length} destinations
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      {trip.status === 'planned' && (
+                        <Button 
+                          size="sm" 
+                          onClick={() => handleStartTrip(trip)}
+                          disabled={isLoading}
+                          className="flex-1"
+                        >
+                          <Play className="w-4 h-4 mr-1" />
+                          Start Trip
+                        </Button>
+                      )}
+                      {trip.status === 'active' && (
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => setCurrentTrip(trip)}
+                          className="flex-1"
+                        >
+                          View Active
+                        </Button>
+                      )}
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => handleDeleteTrip(trip.id)}
+                        disabled={isLoading}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+        <BottomNavigation />
       </div>
     );
   }
@@ -418,6 +846,9 @@ const TripManagement = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Global Bottom Navigation */}
+      <BottomNavigation />
     </div>
   );
 };
