@@ -333,7 +333,7 @@ All colors MUST be HSL.
     @apply fixed bottom-0 left-0 right-0 z-50;
     @apply bg-background/95 backdrop-blur-sm;
     @apply border-t border-border;
-    @apply pb-safe;
+    @apply pb-4;
   }
 
   .mobile-nav-grid {

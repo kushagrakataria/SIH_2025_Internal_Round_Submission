@@ -2,7 +2,24 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Shield, AlertTriangle, Phone, Settings, User, MapPin } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Shield, 
+  AlertTriangle, 
+  Phone, 
+  Settings, 
+  User, 
+  MapPin, 
+  Navigation,
+  Heart,
+  Zap,
+  Bell,
+  ChevronRight,
+  Home,
+  Users,
+  Activity,
+  Menu
+} from "lucide-react";
 
 const DashboardSimple = () => {
   const navigate = useNavigate();
@@ -26,211 +43,232 @@ const DashboardSimple = () => {
   // Show loading state briefly
   if (!mounted) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="mobile-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading Dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading Dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <Shield className="h-8 w-8 text-blue-600" />
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Safe Traveler</h1>
-                <p className="text-sm text-gray-600">Tourist Safety Dashboard</p>
-              </div>
+    <div className="mobile-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      {/* Mobile App Header */}
+      <div className="mobile-container">
+        {/* Status Bar */}
+        <div className="flex justify-between items-center py-3 px-1">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1">
+              <div className="w-1 h-1 bg-foreground rounded-full opacity-80"></div>
+              <div className="w-1 h-1 bg-foreground rounded-full opacity-60"></div>
+              <div className="w-1 h-1 bg-foreground rounded-full opacity-40"></div>
             </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                {currentTime.toLocaleTimeString()}
-              </span>
-              <Button variant="outline" onClick={handleLogin} className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                Login
-              </Button>
+            <span className="text-xs font-medium text-foreground">SafeTravel</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="text-xs text-muted-foreground">
+              {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </span>
+            <div className="flex gap-1 ml-2">
+              <div className="w-3 h-2 border border-foreground rounded-sm">
+                <div className="w-2 h-1 bg-green-500 rounded-sm"></div>
+              </div>
             </div>
           </div>
         </div>
-      </header>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Welcome Section */}
-        <Card className="mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-          <CardContent className="p-8">
-            <h2 className="text-3xl font-bold mb-4">Welcome to Tourist Safety Dashboard</h2>
-            <p className="text-blue-100 mb-6">
-              Your comprehensive safety companion for travel. Monitor your location, receive alerts, and stay connected with emergency services.
-            </p>
-            <div className="flex space-x-4">
+        {/* Main Header */}
+        <div className="flex items-center justify-between mb-6 pt-2">
+          <div>
+            <h1 className="heading-mobile text-foreground">Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}</h1>
+            <p className="text-muted-foreground text-sm">Stay safe on your journey</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" className="rounded-full bg-muted/50">
+              <Bell className="w-5 h-5 text-foreground" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full bg-muted/50" onClick={handleLogin}>
+              <User className="w-5 h-5 text-foreground" />
+            </Button>
+          </div>
+        </div>
+
+        {/* SOS Emergency Button */}
+        <Card className="mb-6 bg-gradient-to-r from-red-500 to-red-600 border-none shadow-lg">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                  <Phone className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-white font-semibold">Emergency SOS</h3>
+                  <p className="text-red-100 text-sm">Tap for immediate help</p>
+                </div>
+              </div>
               <Button 
-                onClick={handleLogin}
-                className="bg-white text-blue-600 hover:bg-blue-50"
+                onClick={handleSOS}
+                size="lg"
+                className="bg-white text-red-600 hover:bg-red-50 font-bold rounded-full px-6 shadow-lg"
               >
-                Get Started
-              </Button>
-              <Button 
-                variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-blue-600"
-                onClick={() => navigate('/welcome')}
-              >
-                Learn More
+                SOS
               </Button>
             </div>
           </CardContent>
         </Card>
 
-        {/* Status Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-            <Shield className="h-12 w-12 mx-auto mb-4 text-green-500" />
-            <h3 className="text-lg font-semibold mb-2">Safety Status</h3>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-              Safe Zone
-            </span>
-          </Card>
-
-          <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-            <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-orange-500" />
-            <h3 className="text-lg font-semibold mb-2">Alert Level</h3>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
-              Low Risk
-            </span>
-          </Card>
-
-          <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-            <MapPin className="h-12 w-12 mx-auto mb-4 text-blue-500" />
-            <h3 className="text-lg font-semibold mb-2">Location</h3>
-            <p className="text-sm text-gray-600">Mumbai, India</p>
-          </Card>
-
-          <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-            <Phone className="h-12 w-12 mx-auto mb-4 text-red-500" />
-            <h3 className="text-lg font-semibold mb-2">Emergency</h3>
-            <Button 
-              onClick={handleSOS}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg w-full"
-              size="sm"
-            >
-              🚨 SOS
-            </Button>
-          </Card>
-        </div>
-
-        {/* Features Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-blue-600" />
-                Safety Features
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <li className="flex items-center text-sm">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
-                  Real-time location monitoring
-                </li>
-                <li className="flex items-center text-sm">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
-                  Geo-fenced safety zones
-                </li>
-                <li className="flex items-center text-sm">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
-                  Emergency contact alerts
-                </li>
-                <li className="flex items-center text-sm">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
-                  Trip tracking & management
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5 text-blue-600" />
-                Quick Actions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <Button 
-                  onClick={() => navigate('/trips')}
-                  variant="outline" 
-                  className="w-full justify-start"
-                >
-                  Manage Trips
-                </Button>
-                <Button 
-                  onClick={() => navigate('/alerts')}
-                  variant="outline" 
-                  className="w-full justify-start"
-                >
-                  View Safety Alerts
-                </Button>
-                <Button 
-                  onClick={() => navigate('/profile')}
-                  variant="outline" 
-                  className="w-full justify-start"
-                >
-                  Update Profile
-                </Button>
-                <Button 
-                  onClick={() => navigate('/dashboard-full')}
-                  variant="outline" 
-                  className="w-full justify-start"
-                >
-                  Full Map Dashboard
-                </Button>
+        {/* Status Cards */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <Card className="bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
+            <CardContent className="p-4 text-center">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Shield className="w-6 h-6 text-green-600" />
               </div>
+              <p className="text-sm font-medium text-foreground mb-1">Safety Status</p>
+              <Badge className="bg-green-100 text-green-700 hover:bg-green-100">Safe Zone</Badge>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
+            <CardContent className="p-4 text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <MapPin className="w-6 h-6 text-blue-600" />
+              </div>
+              <p className="text-sm font-medium text-foreground mb-1">Location</p>
+              <p className="text-sm text-muted-foreground">Mumbai, India</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* System Status */}
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>System Status</CardTitle>
+        {/* Quick Actions */}
+        <Card className="mb-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg text-foreground">Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button 
+              onClick={() => navigate('/trips')}
+              variant="ghost" 
+              className="w-full justify-between h-12 px-4 bg-muted/50 hover:bg-muted/80 rounded-xl"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Navigation className="w-4 h-4 text-blue-600" />
+                </div>
+                <span className="text-foreground font-medium">Manage Trips</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            </Button>
+
+            <Button 
+              onClick={() => navigate('/alerts')}
+              variant="ghost" 
+              className="w-full justify-between h-12 px-4 bg-muted/50 hover:bg-muted/80 rounded-xl"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <AlertTriangle className="w-4 h-4 text-orange-600" />
+                </div>
+                <span className="text-foreground font-medium">Safety Alerts</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            </Button>
+
+            <Button 
+              onClick={() => navigate('/profile')}
+              variant="ghost" 
+              className="w-full justify-between h-12 px-4 bg-muted/50 hover:bg-muted/80 rounded-xl"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <Settings className="w-4 h-4 text-purple-600" />
+                </div>
+                <span className="text-foreground font-medium">Settings</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Safety Features */}
+        <Card className="mb-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg text-foreground flex items-center gap-2">
+              <Shield className="w-5 h-5 text-primary" />
+              Safety Features
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-              <div>
-                <p className="font-medium text-gray-700">Firebase</p>
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                  Connected
-                </span>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-sm text-foreground">Real-time location monitoring</span>
               </div>
-              <div>
-                <p className="font-medium text-gray-700">Maps API</p>
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                  Available
-                </span>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-sm text-foreground">Geo-fenced safety zones</span>
               </div>
-              <div>
-                <p className="font-medium text-gray-700">Emergency Service</p>
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                  Active
-                </span>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-sm text-foreground">Emergency contact alerts</span>
               </div>
-              <div>
-                <p className="font-medium text-gray-700">Location Service</p>
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                  Not Enabled
-                </span>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-sm text-foreground">Trip tracking & management</span>
               </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* System Status */}
+        <Card className="mb-20 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg text-foreground">System Status</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">Firebase</p>
+                <Badge className="bg-green-100 text-green-700 text-xs">Connected</Badge>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">Maps API</p>
+                <Badge className="bg-green-100 text-green-700 text-xs">Available</Badge>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">Emergency</p>
+                <Badge className="bg-green-100 text-green-700 text-xs">Active</Badge>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">Location</p>
+                <Badge className="bg-orange-100 text-orange-700 text-xs">Pending</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="mobile-nav-container">
+        <div className="mobile-nav-grid">
+          <button className="mobile-nav-item active" onClick={() => navigate('/dashboard')}>
+            <Home className="w-5 h-5" />
+            <span>Home</span>
+          </button>
+          <button className="mobile-nav-item" onClick={() => navigate('/trips')}>
+            <Navigation className="w-5 h-5" />
+            <span>Trips</span>
+          </button>
+          <button className="mobile-nav-item" onClick={() => navigate('/alerts')}>
+            <AlertTriangle className="w-5 h-5" />
+            <span>Alerts</span>
+          </button>
+          <button className="mobile-nav-item" onClick={() => navigate('/profile')}>
+            <User className="w-5 h-5" />
+            <span>Profile</span>
+          </button>
+        </div>
       </div>
     </div>
   );
