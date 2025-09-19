@@ -1,6 +1,12 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { 
+  getFirestore, 
+  connectFirestoreEmulator, 
+  enableNetwork, 
+  disableNetwork,
+  enableIndexedDbPersistence 
+} from 'firebase/firestore';
 
 // Debug Firebase environment variables
 console.log('🔧 Firebase Environment Variables:', {
@@ -46,6 +52,30 @@ try {
   console.log('✅ Firebase Auth initialized');
   
   db = getFirestore(app);
+  
+  // Enable offline persistence first
+  try {
+    await enableIndexedDbPersistence(db, { forceOwnership: false });
+    console.log('✅ Firestore offline persistence enabled');
+  } catch (persistenceError: any) {
+    if (persistenceError.code === 'failed-precondition') {
+      console.warn('⚠️ Multiple tabs open, persistence can only be enabled in one tab at a time');
+    } else if (persistenceError.code === 'unimplemented') {
+      console.warn('⚠️ Browser doesn\'t support persistence');
+    } else {
+      console.warn('⚠️ Persistence setup failed:', persistenceError);
+    }
+  }
+
+  // Enable offline persistence and handle network connectivity issues
+  try {
+    // Ensure network is enabled for Firestore
+    await enableNetwork(db);
+    console.log('✅ Firestore network enabled');
+  } catch (networkError) {
+    console.warn('⚠️ Firestore network error (continuing anyway):', networkError);
+  }
+  
   console.log('✅ Firestore initialized');
 
 } catch (error) {

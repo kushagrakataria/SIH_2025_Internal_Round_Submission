@@ -19,6 +19,8 @@ export interface UserProfile {
   digitalId: string;
   createdAt: string;
   lastLoginAt: string;
+  updatedAt?: string;
+  isProfileComplete?: boolean;
   emergencyContacts?: EmergencyContact[];
   preferences?: UserPreferences;
 }
@@ -244,12 +246,96 @@ class AuthService {
   async getCurrentUserProfile(): Promise<UserProfile | null> {
     try {
       const user = auth.currentUser;
-      if (!user) return null;
+      if (!user) {
+        console.log('❌ No authenticated user');
+        return null;
+      }
       
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      return userDoc.exists() ? userDoc.data() as UserProfile : null;
-    } catch (error) {
+      console.log('📖 Fetching user profile for:', user.uid);
+      
+      // Test Firestore connectivity with a simple operation
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        
+        if (userDoc.exists()) {
+          console.log('✅ User profile retrieved from Firestore');
+          return userDoc.data() as UserProfile;
+        } else {
+          console.log('📄 No user profile found in Firestore');
+          
+          // Create a basic profile from auth data
+          const basicProfile: UserProfile = {
+            uid: user.uid,
+            email: user.email!,
+            name: user.displayName || user.email!.split('@')[0],
+            digitalId: user.uid.substring(0, 8).toUpperCase(),
+            createdAt: new Date().toISOString(),
+            lastLoginAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            isProfileComplete: false
+          };
+          
+          // Try to save this basic profile
+          try {
+            await setDoc(doc(db, 'users', user.uid), basicProfile);
+            console.log('✅ Basic profile created in Firestore');
+            return basicProfile;
+          } catch (saveError) {
+            console.warn('⚠️ Could not save basic profile to Firestore, returning in-memory profile');
+            return basicProfile;
+          }
+        }
+      } catch (firestoreError: any) {
+        console.error('❌ Firestore operation failed:', firestoreError);
+        
+        // Return basic profile from auth data when Firestore is unavailable
+        if (firestoreError.code === 'unavailable' || 
+            firestoreError.code === 'failed-precondition' ||
+            firestoreError.message?.includes('offline') ||
+            firestoreError.message?.includes('network')) {
+          
+          console.warn('⚠️ Firestore unavailable - returning auth-based profile');
+          return {
+            uid: user.uid,
+            email: user.email!,
+            name: user.displayName || user.email!.split('@')[0],
+            digitalId: user.uid.substring(0, 8).toUpperCase(),
+            createdAt: new Date().toISOString(),
+            lastLoginAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            isProfileComplete: false
+          };
+        }
+        
+        throw firestoreError;
+      }
+      
+    } catch (error: any) {
       console.error('Error getting user profile:', error);
+      
+      // Handle offline scenarios gracefully
+      if (error?.code === 'failed-precondition' || 
+          error?.code === 'unavailable' ||
+          error?.message?.includes('offline') ||
+          error?.message?.includes('network')) {
+        console.warn('📱 Firestore is offline - user profile will be loaded when connection is restored');
+        
+        // Still try to return basic auth info
+        const user = auth.currentUser;
+        if (user) {
+          return {
+            uid: user.uid,
+            email: user.email!,
+            name: user.displayName || user.email!.split('@')[0],
+            digitalId: user.uid.substring(0, 8).toUpperCase(),
+            createdAt: new Date().toISOString(),
+            lastLoginAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            isProfileComplete: false
+          };
+        }
+      }
+      
       return null;
     }
   }

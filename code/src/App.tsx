@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Welcome from "./pages/Welcome";
-import Login from "./pages/Login";
+import Login from "./pages/LoginFixed";
 import ProfileSetup from "./pages/ProfileSetup";
 import Dashboard from "./pages/Dashboard";
 import DashboardSimple from "./pages/DashboardSimple";
@@ -15,7 +15,17 @@ import AlertsFeed from "./pages/AlertsFeed";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
+// Import Firebase debug utilities
+import { firebaseDebugUtils } from "@/utils/firebaseDebug";
+
 const queryClient = new QueryClient();
+
+// Run Firebase diagnostics in development
+if (import.meta.env.DEV) {
+  console.log('🔍 Running Firebase diagnostics...');
+  firebaseDebugUtils.testConnection();
+  console.log('📊 Project info:', firebaseDebugUtils.getProjectInfo());
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
