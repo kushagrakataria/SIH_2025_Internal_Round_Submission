@@ -1,0 +1,484 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tourist Safety App Design System - Mobile-First 
+Professional safety app with trust-building colors and modern UI
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Core App Colors - Trust & Safety Theme */
+    --background: 248 100% 99%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    /* Primary - Trust Blue */
+    --primary: 214 84% 45%;
+    --primary-foreground: 0 0% 98%;
+    --primary-light: 214 84% 55%;
+    --primary-dark: 214 84% 35%;
+
+    /* Secondary - Professional Gray */
+    --secondary: 215 15% 95%;
+    --secondary-foreground: 215 25% 25%;
+
+    /* Muted */
+    --muted: 215 15% 96%;
+    --muted-foreground: 215 15% 45%;
+
+    /* Accent - Action Blue */
+    --accent: 205 100% 50%;
+    --accent-foreground: 0 0% 98%;
+
+    /* Safety Status Colors */
+    --success: 142 75% 40%;
+    --success-foreground: 0 0% 98%;
+    --success-light: 142 75% 50%;
+    
+    --warning: 35 95% 55%;
+    --warning-foreground: 30 20% 15%;
+    --warning-light: 35 95% 65%;
+    
+    --danger: 0 75% 50%;
+    --danger-foreground: 0 0% 98%;
+    --danger-light: 0 75% 60%;
+
+    /* Emergency SOS */
+    --emergency: 0 85% 45%;
+    --emergency-foreground: 0 0% 98%;
+    
+    --destructive: 0 75% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Borders & Inputs */
+    --border: 215 15% 88%;
+    --input: 215 15% 92%;
+    --ring: 214 84% 45%;
+
+    /* Map Zone Colors */
+    --zone-safe: 142 75% 40%;
+    --zone-moderate: 35 95% 55%;
+    --zone-high-risk: 0 75% 50%;
+    --zone-restricted: 280 50% 45%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-safety: linear-gradient(135deg, hsl(var(--success)), hsl(var(--success-light)));
+    --gradient-warning: linear-gradient(135deg, hsl(var(--warning)), hsl(var(--warning-light)));
+    --gradient-emergency: linear-gradient(135deg, hsl(var(--emergency)), hsl(var(--danger)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-dark)), hsl(var(--accent)));
+    
+    /* Shadows */
+    --shadow-soft: 0 2px 8px hsl(var(--primary) / 0.1);
+    --shadow-medium: 0 4px 16px hsl(var(--primary) / 0.15);
+    --shadow-strong: 0 8px 32px hsl(var(--primary) / 0.2);
+    --shadow-emergency: 0 4px 20px hsl(var(--emergency) / 0.3);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark Mode - Night-friendly for mobile use */
+    --background: 215 30% 8%;
+    --foreground: 215 15% 92%;
+
+    --card: 215 30% 10%;
+    --card-foreground: 215 15% 92%;
+
+    --popover: 215 30% 10%;
+    --popover-foreground: 215 15% 92%;
+
+    --primary: 214 84% 55%;
+    --primary-foreground: 215 30% 8%;
+    --primary-light: 214 84% 65%;
+    --primary-dark: 214 84% 45%;
+
+    --secondary: 215 25% 15%;
+    --secondary-foreground: 215 15% 85%;
+
+    --muted: 215 25% 12%;
+    --muted-foreground: 215 15% 65%;
+
+    --accent: 205 100% 60%;
+    --accent-foreground: 215 30% 8%;
+
+    /* Safety Colors - Dark Mode */
+    --success: 142 65% 45%;
+    --success-foreground: 215 30% 8%;
+    --warning: 35 85% 60%;
+    --warning-foreground: 215 30% 8%;
+    --danger: 0 75% 55%;
+    --danger-foreground: 215 30% 8%;
+    --emergency: 0 85% 50%;
+    --emergency-foreground: 215 30% 8%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 215 30% 8%;
+
+    --border: 215 25% 18%;
+    --input: 215 25% 15%;
+    --ring: 214 84% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    /* Mobile-optimized */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
+  }
+
+  /* Mobile-first responsive containers */
+  .mobile-container {
+    @apply w-full max-w-sm mx-auto px-4;
+  }
+
+  .mobile-screen {
+    @apply min-h-screen w-full;
+  }
+
+  /* Custom button variants */
+  .btn-emergency {
+    @apply bg-gradient-to-r from-emergency to-danger text-emergency-foreground;
+    @apply shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200;
+    box-shadow: var(--shadow-emergency);
+  }
+
+  .btn-hero {
+    background: var(--gradient-hero);
+    @apply text-primary-foreground shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200;
+  }
+
+  .btn-safety {
+    background: var(--gradient-safety);
+    @apply text-success-foreground shadow-md hover:shadow-lg transition-all duration-200;
+  }
+
+  /* Map zone styles */
+  .zone-safe {
+    background-color: hsl(var(--zone-safe) / 0.2);
+    border: 2px solid hsl(var(--zone-safe));
+  }
+
+  .zone-moderate {
+    background-color: hsl(var(--zone-moderate) / 0.2);
+    border: 2px solid hsl(var(--zone-moderate));
+  }
+
+  .zone-high-risk {
+    background-color: hsl(var(--zone-high-risk) / 0.2);
+    border: 2px solid hsl(var(--zone-high-risk));
+  }
+
+  /* Animation utilities */
+  .pulse-emergency {
+    animation: pulse-emergency 2s infinite;
+  }
+
+  @keyframes pulse-emergency {
+    0%, 100% { 
+      box-shadow: 0 0 0 0 hsl(var(--emergency) / 0.7);
+    }
+    70% { 
+      box-shadow: 0 0 0 10px hsl(var(--emergency) / 0);
+    }
+  }
+
+  /* Typography - Mobile-First Responsive */
+  .heading-mobile {
+    @apply text-xl font-bold tracking-tight;
+  }
+
+  .subheading-mobile {
+    @apply text-base font-semibold;
+  }
+
+  .body-mobile {
+    @apply text-sm leading-relaxed;
+  }
+
+  .caption-mobile {
+    @apply text-xs text-muted-foreground;
+  }
+
+  /* Desktop typography overrides */
+  @media (min-width: 768px) {
+    .heading-mobile {
+      @apply text-3xl;
+    }
+    
+    .subheading-mobile {
+      @apply text-xl;
+    }
+    
+    .body-mobile {
+      @apply text-base;
+    }
+    
+    .caption-mobile {
+      @apply text-sm;
+    }
+  }
+}
+
+/* Mobile-First Utilities */
+@layer utilities {
+  /* Container utilities */
+  .mobile-container {
+    @apply w-full px-4 mx-auto;
+  }
+
+  @media (min-width: 640px) {
+    .mobile-container {
+      @apply px-6;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .mobile-container {
+      @apply max-w-7xl px-8;
+    }
+  }
+
+  .mobile-safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Touch-friendly buttons */
+  .touch-button {
+    @apply min-h-[44px] min-w-[44px] text-base font-medium;
+  }
+
+  .touch-button-lg {
+    @apply min-h-[56px] min-w-[56px] text-lg font-semibold;
+  }
+
+  /* Emergency button styles */
+  .emergency-button {
+    @apply bg-emergency hover:bg-emergency/90 text-emergency-foreground;
+    @apply shadow-emergency pulse-emergency;
+    @apply border-2 border-emergency/20;
+  }
+
+  /* Full viewport utilities for mobile */
+  .mobile-viewport {
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height */
+  }
+
+  .mobile-screen {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Responsive grid layouts */
+  .mobile-grid {
+    @apply grid grid-cols-1 gap-4;
+  }
+
+  @media (min-width: 640px) {
+    .mobile-grid {
+      @apply grid-cols-2 gap-6;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-grid {
+      @apply grid-cols-3 gap-8;
+    }
+  }
+
+  /* Mobile navigation */
+  .mobile-nav-container {
+    @apply fixed bottom-0 left-0 right-0 z-50;
+    @apply bg-background/95 backdrop-blur-sm;
+    @apply border-t border-border;
+    @apply pb-safe;
+  }
+
+  .mobile-nav-grid {
+    @apply grid grid-cols-4 gap-1 px-2 py-2;
+  }
+
+  .mobile-nav-item {
+    @apply flex flex-col items-center justify-center;
+    @apply py-2 px-1 rounded-lg;
+    @apply text-xs font-medium;
+    @apply transition-colors duration-200;
+  }
+
+  .mobile-nav-item.active {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  .mobile-nav-item:not(.active) {
+    @apply text-muted-foreground hover:text-foreground;
+  }
+
+  /* Card layouts */
+  .mobile-card {
+    @apply bg-card border border-border rounded-lg;
+    @apply shadow-soft;
+    @apply p-4;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-card {
+      @apply p-6;
+    }
+  }
+
+  /* Form utilities */
+  .mobile-form {
+    @apply space-y-4;
+  }
+
+  .mobile-input {
+    @apply min-h-[44px] text-base;
+  }
+
+  /* Status indicators */
+  .status-safe {
+    @apply bg-success/10 text-success border-success/20;
+  }
+
+  .status-warning {
+    @apply bg-warning/10 text-warning border-warning/20;
+  }
+
+  .status-danger {
+    @apply bg-danger/10 text-danger border-danger/20;
+  }
+
+  /* Loading states */
+  .skeleton-mobile {
+    @apply animate-pulse bg-muted rounded;
+  }
+
+  /* Responsive spacing */
+  .space-mobile {
+    @apply space-y-4;
+  }
+
+  @media (min-width: 768px) {
+    .space-mobile {
+      @apply space-y-6;
+    }
+  }
+
+  /* Map container for mobile */
+  .map-mobile {
+    @apply w-full h-full relative;
+    @apply rounded-lg overflow-hidden;
+  }
+
+  .map-controls-mobile {
+    @apply absolute top-4 right-4 z-10;
+    @apply flex flex-col gap-2;
+  }
+
+  .map-status-mobile {
+    @apply absolute bottom-4 left-4 right-4 z-10;
+  }
+
+  /* Hide on mobile */
+  .hide-mobile {
+    @apply hidden;
+  }
+
+  @media (min-width: 768px) {
+    .hide-mobile {
+      @apply block;
+    }
+  }
+
+  /* Show only on mobile */
+  .show-mobile {
+    @apply block;
+  }
+
+  @media (min-width: 768px) {
+    .show-mobile {
+      @apply hidden;
+    }
+  }
+
+  /* Responsive text sizes */
+  .text-responsive-xl {
+    @apply text-xl;
+  }
+
+  @media (min-width: 768px) {
+    .text-responsive-xl {
+      @apply text-3xl;
+    }
+  }
+
+  .text-responsive-lg {
+    @apply text-lg;
+  }
+
+  @media (min-width: 768px) {
+    .text-responsive-lg {
+      @apply text-2xl;
+    }
+  }
+
+  /* Button variants for mobile */
+  .btn-mobile-primary {
+    @apply touch-button bg-primary text-primary-foreground;
+    @apply hover:bg-primary/90 focus:ring-2 focus:ring-primary/50;
+    @apply rounded-lg font-semibold;
+  }
+
+  .btn-mobile-secondary {
+    @apply touch-button bg-secondary text-secondary-foreground;
+    @apply hover:bg-secondary/80 focus:ring-2 focus:ring-secondary/50;
+    @apply rounded-lg font-medium;
+  }
+
+  .btn-mobile-emergency {
+    @apply touch-button-lg emergency-button;
+    @apply rounded-full font-bold;
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "Sécurité Touristique",
+    "tagline": "Votre compagnon de confiance pour des expériences de voyage sûres",
+    "poweredBy": "Alimenté par Smart Safety Technology"
+  },
+  "welcome": {
+    "chooseLanguage": "Choisissez votre langue",
+    "selectLanguageDesc": "Sélectionnez votre langue préférée pour continuer",
+    "selectLanguagePlaceholder": "Sélectionner la langue",
+    "continue": "Continuer"
+  },
+  "login": {
+    "title": "Bon retour",
+    "subtitle": "Connectez-vous pour continuer votre voyage en toute sécurité",
+    "email": "Email",
+    "password": "Mot de passe",
+    "signIn": "Se connecter",
+    "forgotPassword": "Mot de passe oublié?",
+    "noAccount": "Pas de compte?",
+    "signUp": "S'inscrire"
+  },
+  "dashboard": {
+    "safeZone": "Vous êtes dans une zone sûre",
+    "moderateRisk": "Zone de risque modéré",
+    "highRisk": "Risque élevé - Restez vigilant",
+    "currentLocation": "Emplacement actuel",
+    "touristHub": "Zone du centre touristique",
+    "gpsActive": "GPS actif",
+    "interactiveMap": "Carte interactive",
+    "safeZoneLabel": "Zone sûre",
+    "moderateRiskLabel": "Risque modéré",
+    "highRiskLabel": "Risque élevé",
+    "emergencyAlert": "Alerte d'urgence envoyée",
+    "emergencyDesc": "Votre emplacement a été partagé avec les contacts d'urgence et les autorités.",
+    "monitoredArea": "Vous êtes entré dans une zone surveillée. Restez vigilant et suivez les directives locales.",
+    "digitalIdActive": "ID numérique actif",
+    "gpsConnected": "GPS connecté"
+  },
+  "navigation": {
+    "map": "Carte",
+    "trips": "Voyages",
+    "alerts": "Alertes",
+    "profile": "Profil"
+  },
+  "trip": {
+    "title": "Gestion des voyages",
+    "currentTrip": "Voyage actuel",
+    "endTrip": "Terminer le voyage",
+    "pauseTrip": "Mettre en pause le voyage",
+    "noActiveTrip": "Aucun voyage actif"
+  },
+  "alerts": {
+    "title": "Alertes de sécurité",
+    "noAlerts": "Aucune alerte pour le moment",
+    "geofencing": "Alerte de géofencing"
+  },
+  "profile": {
+    "title": "Profil",
+    "digitalId": "ID numérique",
+    "emergencyContacts": "Contacts d'urgence",
+    "settings": "Paramètres",
+    "language": "Langue"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "Tourist Safety",
+    "tagline": "Your trusted companion for safe travel experiences",
+    "poweredBy": "Powered by Smart Safety Technology"
+  },
+  "welcome": {
+    "chooseLanguage": "Choose Your Language",
+    "selectLanguageDesc": "Select your preferred language to continue",
+    "selectLanguagePlaceholder": "Select Language",
+    "continue": "Continue"
+  },
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to continue your safe journey",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up"
+  },
+  "dashboard": {
+    "safeZone": "You're in a Safe Zone",
+    "moderateRisk": "Moderate Risk Area",
+    "highRisk": "High Risk - Stay Alert",
+    "currentLocation": "Current Location",
+    "touristHub": "Tourist Hub Area",
+    "gpsActive": "GPS Active",
+    "interactiveMap": "Interactive Map",
+    "safeZoneLabel": "Safe Zone",
+    "moderateRiskLabel": "Moderate Risk",
+    "highRiskLabel": "High Risk",
+    "emergencyAlert": "Emergency Alert Sent",
+    "emergencyDesc": "Your location has been shared with emergency contacts and authorities.",
+    "monitoredArea": "You've entered a monitored area. Stay alert and follow local guidelines.",
+    "digitalIdActive": "Digital ID Active",
+    "gpsConnected": "GPS Connected"
+  },
+  "navigation": {
+    "map": "Map",
+    "trips": "Trips",
+    "alerts": "Alerts",
+    "profile": "Profile"
+  },
+  "trip": {
+    "title": "Trip Management",
+    "currentTrip": "Current Trip",
+    "endTrip": "End Trip",
+    "pauseTrip": "Pause Trip",
+    "noActiveTrip": "No active trip"
+  },
+  "alerts": {
+    "title": "Safety Alerts",
+    "noAlerts": "No alerts at this time",
+    "geofencing": "Geo-fencing Alert"
+  },
+  "profile": {
+    "title": "Profile",
+    "digitalId": "Digital ID",
+    "emergencyContacts": "Emergency Contacts",
+    "settings": "Settings",
+    "language": "Language"
+  }
+}

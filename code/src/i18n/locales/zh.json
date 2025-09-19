@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "旅游安全",
+    "tagline": "您安全旅行体验的可信伴侣",
+    "poweredBy": "由智能安全技术提供支持"
+  },
+  "welcome": {
+    "chooseLanguage": "选择您的语言",
+    "selectLanguageDesc": "选择您的首选语言以继续",
+    "selectLanguagePlaceholder": "选择语言",
+    "continue": "继续"
+  },
+  "login": {
+    "title": "欢迎回来",
+    "subtitle": "登录以继续您的安全旅程",
+    "email": "邮箱",
+    "password": "密码",
+    "signIn": "登录",
+    "forgotPassword": "忘记密码？",
+    "noAccount": "没有账户？",
+    "signUp": "注册"
+  },
+  "dashboard": {
+    "safeZone": "您在安全区域内",
+    "moderateRisk": "中等风险区域",
+    "highRisk": "高风险 - 保持警惕",
+    "currentLocation": "当前位置",
+    "touristHub": "旅游中心区域",
+    "gpsActive": "GPS 活跃",
+    "interactiveMap": "交互式地图",
+    "safeZoneLabel": "安全区域",
+    "moderateRiskLabel": "中等风险",
+    "highRiskLabel": "高风险",
+    "emergencyAlert": "紧急警报已发送",
+    "emergencyDesc": "您的位置已与紧急联系人和当局共享。",
+    "monitoredArea": "您已进入监控区域。保持警惕并遵循当地指导原则。",
+    "digitalIdActive": "数字身份证活跃",
+    "gpsConnected": "GPS 已连接"
+  },
+  "navigation": {
+    "map": "地图",
+    "trips": "行程",
+    "alerts": "警报",
+    "profile": "个人资料"
+  },
+  "trip": {
+    "title": "行程管理",
+    "currentTrip": "当前行程",
+    "endTrip": "结束行程",
+    "pauseTrip": "暂停行程",
+    "noActiveTrip": "没有活跃的行程"
+  },
+  "alerts": {
+    "title": "安全警报",
+    "noAlerts": "目前没有警报",
+    "geofencing": "地理围栏警报"
+  },
+  "profile": {
+    "title": "个人资料",
+    "digitalId": "数字身份证",
+    "emergencyContacts": "紧急联系人",
+    "settings": "设置",
+    "language": "语言"
+  }
+}

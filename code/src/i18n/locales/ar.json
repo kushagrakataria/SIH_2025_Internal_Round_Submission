@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "أمان السياح",
+    "tagline": "رفيقك الموثوق لتجارب سفر آمنة",
+    "poweredBy": "مدعوم بتقنية السلامة الذكية"
+  },
+  "welcome": {
+    "chooseLanguage": "اختر لغتك",
+    "selectLanguageDesc": "اختر لغتك المفضلة للمتابعة",
+    "selectLanguagePlaceholder": "اختر اللغة",
+    "continue": "متابعة"
+  },
+  "login": {
+    "title": "أهلاً بعودتك",
+    "subtitle": "سجل الدخول لمتابعة رحلتك الآمنة",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "noAccount": "ليس لديك حساب؟",
+    "signUp": "إنشاء حساب"
+  },
+  "dashboard": {
+    "safeZone": "أنت في منطقة آمنة",
+    "moderateRisk": "منطقة خطر متوسط",
+    "highRisk": "خطر عالي - ابق يقظاً",
+    "currentLocation": "الموقع الحالي",
+    "touristHub": "منطقة المركز السياحي",
+    "gpsActive": "GPS نشط",
+    "interactiveMap": "خريطة تفاعلية",
+    "safeZoneLabel": "منطقة آمنة",
+    "moderateRiskLabel": "خطر متوسط",
+    "highRiskLabel": "خطر عالي",
+    "emergencyAlert": "تم إرسال تنبيه الطوارئ",
+    "emergencyDesc": "تم مشاركة موقعك مع جهات الاتصال في حالات الطوارئ والسلطات.",
+    "monitoredArea": "لقد دخلت منطقة مراقبة. ابق يقظاً واتبع الإرشادات المحلية.",
+    "digitalIdActive": "الهوية الرقمية نشطة",
+    "gpsConnected": "GPS متصل"
+  },
+  "navigation": {
+    "map": "الخريطة",
+    "trips": "الرحلات",
+    "alerts": "التنبيهات",
+    "profile": "الملف الشخصي"
+  },
+  "trip": {
+    "title": "إدارة الرحلات",
+    "currentTrip": "الرحلة الحالية",
+    "endTrip": "إنهاء الرحلة",
+    "pauseTrip": "إيقاف الرحلة مؤقتاً",
+    "noActiveTrip": "لا توجد رحلة نشطة"
+  },
+  "alerts": {
+    "title": "تنبيهات الأمان",
+    "noAlerts": "لا توجد تنبيهات في هذا الوقت",
+    "geofencing": "تنبيه الحدود الجغرافية"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "digitalId": "الهوية الرقمية",
+    "emergencyContacts": "جهات الاتصال في حالات الطوارئ",
+    "settings": "الإعدادات",
+    "language": "اللغة"
+  }
+}

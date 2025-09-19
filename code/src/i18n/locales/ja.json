@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "観光安全",
+    "tagline": "安全な旅行体験のための信頼できるパートナー",
+    "poweredBy": "スマートセーフティテクノロジーによる運営"
+  },
+  "welcome": {
+    "chooseLanguage": "言語を選択してください",
+    "selectLanguageDesc": "続行するには、お好みの言語を選択してください",
+    "selectLanguagePlaceholder": "言語を選択",
+    "continue": "続行"
+  },
+  "login": {
+    "title": "おかえりなさい",
+    "subtitle": "安全な旅を続けるためにサインインしてください",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "signIn": "サインイン",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "noAccount": "アカウントをお持ちでない方",
+    "signUp": "サインアップ"
+  },
+  "dashboard": {
+    "safeZone": "安全エリアにいます",
+    "moderateRisk": "中程度のリスクエリア",
+    "highRisk": "高リスク - 警戒してください",
+    "currentLocation": "現在地",
+    "touristHub": "観光ハブエリア",
+    "gpsActive": "GPS アクティブ",
+    "interactiveMap": "インタラクティブマップ",
+    "safeZoneLabel": "安全エリア",
+    "moderateRiskLabel": "中程度のリスク",
+    "highRiskLabel": "高リスク",
+    "emergencyAlert": "緊急アラートが送信されました",
+    "emergencyDesc": "あなたの位置が緊急連絡先と当局に共有されました。",
+    "monitoredArea": "監視エリアに入りました。警戒し、現地のガイドラインに従ってください。",
+    "digitalIdActive": "デジタルIDアクティブ",
+    "gpsConnected": "GPS接続済み"
+  },
+  "navigation": {
+    "map": "マップ",
+    "trips": "旅行",
+    "alerts": "アラート",
+    "profile": "プロフィール"
+  },
+  "trip": {
+    "title": "旅行管理",
+    "currentTrip": "現在の旅行",
+    "endTrip": "旅行を終了",
+    "pauseTrip": "旅行を一時停止",
+    "noActiveTrip": "アクティブな旅行がありません"
+  },
+  "alerts": {
+    "title": "安全アラート",
+    "noAlerts": "現在アラートはありません",
+    "geofencing": "ジオフェンシングアラート"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "digitalId": "デジタルID",
+    "emergencyContacts": "緊急連絡先",
+    "settings": "設定",
+    "language": "言語"
+  }
+}

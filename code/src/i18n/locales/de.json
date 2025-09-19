@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "Touristen-Sicherheit",
+    "tagline": "Ihr vertrauenswürdiger Begleiter für sichere Reiseerlebnisse",
+    "poweredBy": "Betrieben von Smart Safety Technology"
+  },
+  "welcome": {
+    "chooseLanguage": "Wählen Sie Ihre Sprache",
+    "selectLanguageDesc": "Wählen Sie Ihre bevorzugte Sprache, um fortzufahren",
+    "selectLanguagePlaceholder": "Sprache auswählen",
+    "continue": "Fortfahren"
+  },
+  "login": {
+    "title": "Willkommen zurück",
+    "subtitle": "Melden Sie sich an, um Ihre sichere Reise fortzusetzen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "signIn": "Anmelden",
+    "forgotPassword": "Passwort vergessen?",
+    "noAccount": "Kein Konto?",
+    "signUp": "Registrieren"
+  },
+  "dashboard": {
+    "safeZone": "Sie befinden sich in einer sicheren Zone",
+    "moderateRisk": "Mäßiges Risikogebiet",
+    "highRisk": "Hohes Risiko - Bleiben Sie wachsam",
+    "currentLocation": "Aktueller Standort",
+    "touristHub": "Touristenzentrum",
+    "gpsActive": "GPS aktiv",
+    "interactiveMap": "Interaktive Karte",
+    "safeZoneLabel": "Sichere Zone",
+    "moderateRiskLabel": "Mäßiges Risiko",
+    "highRiskLabel": "Hohes Risiko",
+    "emergencyAlert": "Notfall-Alarm gesendet",
+    "emergencyDesc": "Ihr Standort wurde mit Notfallkontakten und Behörden geteilt.",
+    "monitoredArea": "Sie haben einen überwachten Bereich betreten. Bleiben Sie wachsam und befolgen Sie lokale Richtlinien.",
+    "digitalIdActive": "Digitale ID aktiv",
+    "gpsConnected": "GPS verbunden"
+  },
+  "navigation": {
+    "map": "Karte",
+    "trips": "Reisen",
+    "alerts": "Alarme",
+    "profile": "Profil"
+  },
+  "trip": {
+    "title": "Reiseverwaltung",
+    "currentTrip": "Aktuelle Reise",
+    "endTrip": "Reise beenden",
+    "pauseTrip": "Reise pausieren",
+    "noActiveTrip": "Keine aktive Reise"
+  },
+  "alerts": {
+    "title": "Sicherheits-Alarme",
+    "noAlerts": "Derzeit keine Alarme",
+    "geofencing": "Geofencing-Alarm"
+  },
+  "profile": {
+    "title": "Profil",
+    "digitalId": "Digitale ID",
+    "emergencyContacts": "Notfallkontakte",
+    "settings": "Einstellungen",
+    "language": "Sprache"
+  }
+}

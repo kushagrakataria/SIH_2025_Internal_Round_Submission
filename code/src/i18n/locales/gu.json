@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "પર્યટક સુરક્ષા",
+    "tagline": "સુરક્ષિત મુસાફરી અનુભવો માટે તમારો વિશ્વસનીય સાથી",
+    "poweredBy": "સ્માર્ટ સુરક્ષા ટેકનોલોજી દ્વારા સંચાલિત"
+  },
+  "welcome": {
+    "chooseLanguage": "તમારી ભાષા પસંદ કરો",
+    "selectLanguageDesc": "ચાલુ રાખવા માટે તમારી પસંદીદા ભાષા પસંદ કરો",
+    "selectLanguagePlaceholder": "ભાષા પસંદ કરો",
+    "continue": "ચાલુ રાખો"
+  },
+  "login": {
+    "title": "પાછા સ્વાગત છે",
+    "subtitle": "તમારી સુરક્ષિત મુસાફરી ચાલુ રાખવા માટે સાઇન ઇન કરો",
+    "email": "ઇમેઇલ",
+    "password": "પાસવર્ડ",
+    "signIn": "સાઇન ઇન",
+    "forgotPassword": "પાસવર્ડ ભૂલી ગયા?",
+    "noAccount": "એકાઉન્ટ નથી?",
+    "signUp": "સાઇન અપ"
+  },
+  "dashboard": {
+    "safeZone": "તમે સુરક્ષિત ક્ષેત્રમાં છો",
+    "moderateRisk": "મધ્યમ જોખમ વિસ્તાર",
+    "highRisk": "ઉચ્ચ જોખમ - સાવચેત રહો",
+    "currentLocation": "વર્તમાન સ્થાન",
+    "touristHub": "પર્યટન કેન્દ્ર વિસ્તાર",
+    "gpsActive": "GPS સક્રિય",
+    "interactiveMap": "ઇન્ટરેક્ટિવ નકશો",
+    "safeZoneLabel": "સુરક્ષિત વિસ્તાર",
+    "moderateRiskLabel": "મધ્યમ જોખમ",
+    "highRiskLabel": "ઉચ્ચ જોખમ",
+    "emergencyAlert": "કટોકટી અલર્ટ મોકલાયો",
+    "emergencyDesc": "તમારું સ્થાન કટોકટી સંપર્કો અને અધિકારીઓ સાથે શેર કરવામાં આવ્યું છે.",
+    "monitoredArea": "તમે એક મોનિટર કરેલા વિસ્તારમાં પ્રવેશ કર્યો છે. સાવચેત રહો અને સ્થાનિક માર્ગદર્શિકાઓ અનુસરો.",
+    "digitalIdActive": "ડિજિટલ ID સક્રિય",
+    "gpsConnected": "GPS કનેક્ટ થયું"
+  },
+  "navigation": {
+    "map": "નકશો",
+    "trips": "યાત્રાઓ",
+    "alerts": "અલર્ટ",
+    "profile": "પ્રોફાઇલ"
+  },
+  "trip": {
+    "title": "યાત્રા વ્યવસ્થાપન",
+    "currentTrip": "વર્તમાન યાત્રા",
+    "endTrip": "યાત્રા સમાપ્ત કરો",
+    "pauseTrip": "યાત્રા વિરામ કરો",
+    "noActiveTrip": "કોઈ સક્રિય યાત્રા નથી"
+  },
+  "alerts": {
+    "title": "સુરક્ષા અલર્ટ",
+    "noAlerts": "આ સમયે કોઈ અલર્ટ નથી",
+    "geofencing": "જિયો-ફેન્સિંગ અલર્ટ"
+  },
+  "profile": {
+    "title": "પ્રોફાઇલ",
+    "digitalId": "ડિજિટલ ID",
+    "emergencyContacts": "કટોકટી સંપર્કો",
+    "settings": "સેટિંગ્સ",
+    "language": "ભાષા"
+  }
+}

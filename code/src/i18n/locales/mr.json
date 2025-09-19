@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "पर्यटक सुरक्षा",
+    "tagline": "सुरक्षित प्रवास अनुभवांसाठी तुमचा विश्वसनीय साथी",
+    "poweredBy": "स्मार्ट सुरक्षा तंत्रज्ञानाद्वारे चालित"
+  },
+  "welcome": {
+    "chooseLanguage": "तुमची भाषा निवडा",
+    "selectLanguageDesc": "पुढे जाण्यासाठी तुमची आवडती भाषा निवडा",
+    "selectLanguagePlaceholder": "भाषा निवडा",
+    "continue": "पुढे चला"
+  },
+  "login": {
+    "title": "परत स्वागत आहे",
+    "subtitle": "तुमच्या सुरक्षित प्रवासासाठी साइन इन करा",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "signIn": "साइन इन",
+    "forgotPassword": "पासवर्ड विसरलात?",
+    "noAccount": "खाते नाही?",
+    "signUp": "साइन अप"
+  },
+  "dashboard": {
+    "safeZone": "तुम्ही सुरक्षित क्षेत्रात आहात",
+    "moderateRisk": "मध्यम धोका क्षेत्र",
+    "highRisk": "उच्च धोका - सावध राहा",
+    "currentLocation": "सध्याचे स्थान",
+    "touristHub": "पर्यटक केंद्र क्षेत्र",
+    "gpsActive": "GPS सक्रिय",
+    "interactiveMap": "परस्परसंवादी नकाशा",
+    "safeZoneLabel": "सुरक्षित क्षेत्र",
+    "moderateRiskLabel": "मध्यम धोका",
+    "highRiskLabel": "उच्च धोका",
+    "emergencyAlert": "आपत्कालीन अलर्ट पाठवला",
+    "emergencyDesc": "तुमचे स्थान आपत्कालीन संपर्क आणि अधिकाऱ्यांसोबत सामायिक केले आहे।",
+    "monitoredArea": "तुम्ही निरीक्षण क्षेत्रात प्रवेश केला आहे। सावध राहा आणि स्थानिक मार्गदर्शक तत्त्वांचे पालन करा।",
+    "digitalIdActive": "डिजिटल ID सक्रिय",
+    "gpsConnected": "GPS जोडले"
+  },
+  "navigation": {
+    "map": "नकाशा",
+    "trips": "प्रवास",
+    "alerts": "अलर्ट",
+    "profile": "प्रोफाइल"
+  },
+  "trip": {
+    "title": "प्रवास व्यवस्थापन",
+    "currentTrip": "सध्याचा प्रवास",
+    "endTrip": "प्रवास संपवा",
+    "pauseTrip": "प्रवास थांबवा",
+    "noActiveTrip": "कोणताही सक्रिय प्रवास नाही"
+  },
+  "alerts": {
+    "title": "सुरक्षा अलर्ट",
+    "noAlerts": "या वेळी कोणतेही अलर्ट नाहीत",
+    "geofencing": "जिओ-फेंसिंग अलर्ट"
+  },
+  "profile": {
+    "title": "प्रोफाइल",
+    "digitalId": "डिजिटल ID",
+    "emergencyContacts": "आपत्कालीन संपर्क",
+    "settings": "सेटिंग्ज",
+    "language": "भाषा"
+  }
+}

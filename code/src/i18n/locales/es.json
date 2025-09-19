@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "Seguridad Turística",
+    "tagline": "Tu compañero confiable para experiencias de viaje seguras",
+    "poweredBy": "Desarrollado por Smart Safety Technology"
+  },
+  "welcome": {
+    "chooseLanguage": "Elige tu idioma",
+    "selectLanguageDesc": "Selecciona tu idioma preferido para continuar",
+    "selectLanguagePlaceholder": "Seleccionar idioma",
+    "continue": "Continuar"
+  },
+  "login": {
+    "title": "Bienvenido de vuelta",
+    "subtitle": "Inicia sesión para continuar tu viaje seguro",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "signIn": "Iniciar sesión",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes una cuenta?",
+    "signUp": "Registrarse"
+  },
+  "dashboard": {
+    "safeZone": "Estás en una zona segura",
+    "moderateRisk": "Área de riesgo moderado",
+    "highRisk": "Alto riesgo - Mantente alerta",
+    "currentLocation": "Ubicación actual",
+    "touristHub": "Área del centro turístico",
+    "gpsActive": "GPS activo",
+    "interactiveMap": "Mapa interactivo",
+    "safeZoneLabel": "Zona segura",
+    "moderateRiskLabel": "Riesgo moderado",
+    "highRiskLabel": "Alto riesgo",
+    "emergencyAlert": "Alerta de emergencia enviada",
+    "emergencyDesc": "Tu ubicación ha sido compartida con contactos de emergencia y autoridades.",
+    "monitoredArea": "Has entrado en un área monitoreada. Mantente alerta y sigue las pautas locales.",
+    "digitalIdActive": "ID digital activo",
+    "gpsConnected": "GPS conectado"
+  },
+  "navigation": {
+    "map": "Mapa",
+    "trips": "Viajes",
+    "alerts": "Alertas",
+    "profile": "Perfil"
+  },
+  "trip": {
+    "title": "Gestión de viajes",
+    "currentTrip": "Viaje actual",
+    "endTrip": "Finalizar viaje",
+    "pauseTrip": "Pausar viaje",
+    "noActiveTrip": "Sin viaje activo"
+  },
+  "alerts": {
+    "title": "Alertas de seguridad",
+    "noAlerts": "No hay alertas en este momento",
+    "geofencing": "Alerta de geocercado"
+  },
+  "profile": {
+    "title": "Perfil",
+    "digitalId": "ID digital",
+    "emergencyContacts": "Contactos de emergencia",
+    "settings": "Configuración",
+    "language": "Idioma"
+  }
+}

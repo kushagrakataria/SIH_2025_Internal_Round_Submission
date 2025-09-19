@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "पर्यटक सुरक्षा",
+    "tagline": "सुरक्षित यात्रा अनुभवों के लिए आपका विश्वसनीय साथी",
+    "poweredBy": "स्मार्ट सुरक्षा प्रौद्योगिकी द्वारा संचालित"
+  },
+  "welcome": {
+    "chooseLanguage": "अपनी भाषा चुनें",
+    "selectLanguageDesc": "जारी रखने के लिए अपनी पसंदीदा भाषा चुनें",
+    "selectLanguagePlaceholder": "भाषा चुनें",
+    "continue": "जारी रखें"
+  },
+  "login": {
+    "title": "वापस स्वागत है",
+    "subtitle": "अपनी सुरक्षित यात्रा जारी रखने के लिए साइन इन करें",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "signIn": "साइन इन",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "noAccount": "कोई खाता नहीं है?",
+    "signUp": "साइन अप"
+  },
+  "dashboard": {
+    "safeZone": "आप सुरक्षित क्षेत्र में हैं",
+    "moderateRisk": "मध्यम जोखिम क्षेत्र",
+    "highRisk": "उच्च जोखिम - सतर्क रहें",
+    "currentLocation": "वर्तमान स्थान",
+    "touristHub": "पर्यटक केंद्र क्षेत्र",
+    "gpsActive": "GPS सक्रिय",
+    "interactiveMap": "इंटरैक्टिव मानचित्र",
+    "safeZoneLabel": "सुरक्षित क्षेत्र",
+    "moderateRiskLabel": "मध्यम जोखिम",
+    "highRiskLabel": "उच्च जोखिम",
+    "emergencyAlert": "आपातकालीन अलर्ट भेजा गया",
+    "emergencyDesc": "आपका स्थान आपातकालीन संपर्कों और अधिकारियों के साथ साझा किया गया है।",
+    "monitoredArea": "आप एक निगरानी क्षेत्र में प्रवेश कर चुके हैं। सतर्क रहें और स्थानीय दिशानिर्देशों का पालन करें।",
+    "digitalIdActive": "डिजिटल ID सक्रिय",
+    "gpsConnected": "GPS कनेक्टेड"
+  },
+  "navigation": {
+    "map": "मानचित्र",
+    "trips": "यात्राएं",
+    "alerts": "अलर्ट",
+    "profile": "प्रोफ़ाइल"
+  },
+  "trip": {
+    "title": "यात्रा प्रबंधन",
+    "currentTrip": "वर्तमान यात्रा",
+    "endTrip": "यात्रा समाप्त करें",
+    "pauseTrip": "यात्रा रोकें",
+    "noActiveTrip": "कोई सक्रिय यात्रा नहीं"
+  },
+  "alerts": {
+    "title": "सुरक्षा अलर्ट",
+    "noAlerts": "इस समय कोई अलर्ट नहीं",
+    "geofencing": "जियो-फेंसिंग अलर्ट"
+  },
+  "profile": {
+    "title": "प्रोफ़ाइल",
+    "digitalId": "डिजिटल ID",
+    "emergencyContacts": "आपातकालीन संपर्क",
+    "settings": "सेटिंग्स",
+    "language": "भाषा"
+  }
+}
