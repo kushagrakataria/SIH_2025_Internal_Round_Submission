@@ -131,6 +131,11 @@ npm install -g vercel
 ### Step 3: **Configure vercel.json**
 ```json
 {
+  "version": 2,
+  "buildCommand": "npm install --legacy-peer-deps && npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install --legacy-peer-deps",
+  "framework": "vite",
   "rewrites": [
     {
       "source": "/(.*)",
@@ -165,6 +170,26 @@ npm install -g vercel
     }
   ]
 }
+```
+
+### Step 4: **Add .npmrc for Cross-Platform Compatibility**
+```ini
+# Cross-platform build configuration
+install-links=false
+prefer-offline=false
+package-lock=false
+
+# Allow platform-specific optional dependencies to install
+optional=true
+
+# Set registry
+registry=https://registry.npmjs.org/
+
+# Reduce installation verbosity
+loglevel=warn
+
+# Don't fail on optional dependency errors
+ignore-optional=true
 ```
 
 ### Step 4: **Deploy to Vercel**
