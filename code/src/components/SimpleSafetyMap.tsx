@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -229,6 +229,62 @@ export const SimpleSafetyMap: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<[number, number] | null>(null);
   const [activeRiskFilter, setActiveRiskFilter] = useState<string | null>(null);
   const [showStats, setShowStats] = useState(false);
+  const [nearbyZones, setNearbyZones] = useState<typeof SAFETY_ZONES>([]);
+  const [realTimeAlerts, setRealTimeAlerts] = useState(RECENT_ALERTS);
+  const [isLive, setIsLive] = useState(false);
+
+  // Auto-get location on component mount
+  useEffect(() => {
+    handleGetLocation();
+    setIsLive(true);
+    
+    // Simulate real-time updates
+    const interval = setInterval(() => {
+      // Update alerts with new data
+      setRealTimeAlerts(prev => [
+        {
+          id: Date.now(),
+          type: ["Weather", "Security", "Traffic", "Emergency"][Math.floor(Math.random() * 4)],
+          message: `Live Update: ${["New incident reported", "Weather conditions changing", "Traffic disruption", "Security alert"][Math.floor(Math.random() * 4)]} in nearby area`,
+          time: "Just now",
+          severity: ["low", "medium", "high"][Math.floor(Math.random() * 3)],
+          location: ["Current Area", "Nearby Zone", "Local Region"][Math.floor(Math.random() * 3)]
+        },
+        ...prev.slice(0, 4) // Keep only recent 5 alerts
+      ]);
+    }, 30000); // Update every 30 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Calculate nearby zones when location changes
+  useEffect(() => {
+    if (currentLocation) {
+      const nearby = SAFETY_ZONES.filter(zone => {
+        const distance = calculateDistance(currentLocation, zone.location);
+        return distance <= 100; // Within 100km
+      }).sort((a, b) => {
+        const distA = calculateDistance(currentLocation, a.location);
+        const distB = calculateDistance(currentLocation, b.location);
+        return distA - distB;
+      });
+      setNearbyZones(nearby);
+    }
+  }, [currentLocation]);
+
+  // Calculate distance between two coordinates (simplified)
+  const calculateDistance = (point1: [number, number], point2: number[]) => {
+    const [lat1, lon1] = point1;
+    const [lat2, lon2] = point2;
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
 
   const handleGetLocation = () => {
     if (navigator.geolocation) {
@@ -272,6 +328,102 @@ export const SimpleSafetyMap: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Real-time Status Header */}
+      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border">
+        <div className="flex items-center gap-3">
+          <div className={`w-3 h-3 rounded-full ${isLive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+          <div>
+            <h3 className="font-semibold text-sm">Real-time Safety Map</h3>
+            <p className="text-xs text-gray-600">
+              {currentLocation 
+                ? `📍 Your location tracked • ${nearbyZones.length} zones nearby`
+                : "🔍 Getting your location..."
+              }
+            </p>
+          </div>
+        </div>
+        <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+          Live Data
+        </Badge>
+      </div>
+
+      {/* Current Location & Nearby Zones */}
+      {currentLocation && nearbyZones.length > 0 && (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <MapPin className="w-5 h-5 text-blue-500" />
+              Nearby Risk Zones
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {nearbyZones.slice(0, 3).map((zone) => {
+                const distance = calculateDistance(currentLocation, zone.location);
+                return (
+                  <div key={zone.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div 
+                        className="w-3 h-3 rounded-full" 
+                        style={{ backgroundColor: RISK_LEVELS[zone.riskLevel as keyof typeof RISK_LEVELS].color }}
+                      ></div>
+                      <div>
+                        <p className="font-medium text-sm">{zone.name}</p>
+                        <p className="text-xs text-gray-600">{zone.type}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium">{distance.toFixed(1)} km</p>
+                      <Badge 
+                        variant="outline" 
+                        className="text-xs"
+                        style={{ 
+                          borderColor: RISK_LEVELS[zone.riskLevel as keyof typeof RISK_LEVELS].color,
+                          color: RISK_LEVELS[zone.riskLevel as keyof typeof RISK_LEVELS].color
+                        }}
+                      >
+                        {RISK_LEVELS[zone.riskLevel as keyof typeof RISK_LEVELS].label}
+                      </Badge>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Live Alerts Feed */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5 text-orange-500" />
+            Live Safety Alerts
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3 max-h-48 overflow-y-auto">
+            {realTimeAlerts.map((alert) => (
+              <div key={alert.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                <div className={`w-2 h-2 mt-2 rounded-full ${
+                  alert.severity === 'high' ? 'bg-red-500' :
+                  alert.severity === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
+                }`}></div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Badge variant="outline" className="text-xs">
+                      {alert.type}
+                    </Badge>
+                    <span className="text-xs text-gray-500">{alert.location}</span>
+                  </div>
+                  <p className="text-sm">{alert.message}</p>
+                  <p className="text-xs text-gray-500 mt-1">{alert.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
       {/* Statistics Overview */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="text-center">

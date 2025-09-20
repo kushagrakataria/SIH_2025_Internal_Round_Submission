@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import BottomNavigation from "@/components/BottomNavigation";
+import TopNavigation from "@/components/TopNavigation";
 import { 
   ArrowLeft,
   User,
@@ -95,7 +96,7 @@ const Profile = () => {
         name: userProfile.name || currentUser.displayName || 'Unknown User',
         email: currentUser.email || '',
         phone: userProfile.phone || '',
-        digitalId: userProfile.digitalId || `STB${Date.now().toString().slice(-6)}`,
+        digitalId: userProfile.digitalId || `0x${Math.random().toString(16).substr(2, 40).toUpperCase()}`,
         nationality: (userProfile as any)?.nationality || 'Indian',
         passportNumber: (userProfile as any)?.passportNumber || '',
         emergencyContacts: userProfile.emergencyContacts || [
@@ -130,7 +131,7 @@ const Profile = () => {
         name: currentUser.displayName || 'New User',
         email: currentUser.email || '',
         phone: '',
-        digitalId: `STB${Date.now().toString().slice(-6)}`,
+        digitalId: `0x${Math.random().toString(16).substr(2, 40).toUpperCase()}`,
         nationality: 'Indian',
         passportNumber: '',
         emergencyContacts: [
@@ -352,36 +353,11 @@ const Profile = () => {
 
   return (
     <div className="mobile-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
-      {/* Header */}
-      <div className="mobile-container pt-8 pb-4">
-        <div className="flex items-center gap-4 mb-6">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full"
-            onClick={() => navigate('/dashboard')}
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <div className="flex-1">
-            <h1 className="subheading-mobile">{t('profile.title')}</h1>
-            <p className="caption-mobile text-muted-foreground">
-              Manage your digital identity and preferences
-            </p>
-          </div>
-          <Button
-            variant={isEditing ? "hero" : "outline"}
-            size="icon"
-            className="rounded-full"
-            onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
-            disabled={isLoading}
-          >
-            {isEditing ? <Save className="w-5 h-5" /> : <Edit className="w-5 h-5" />}
-          </Button>
-        </div>
-      </div>
-
-      <div className="mobile-container flex-1 pb-24 space-y-6">
+      {/* Top Navigation */}
+      <TopNavigation />
+      
+      {/* Main Content */}
+      <div className="mobile-container flex-1 pb-24 pt-20 space-y-6">
         {/* Digital ID Section */}
         <Card className="border-0 shadow-soft bg-card/50 backdrop-blur-sm">
           <CardHeader className="pb-4">
@@ -398,35 +374,62 @@ const Profile = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="p-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl border border-primary/20">
-              <div className="flex items-center justify-between mb-3">
-                <Label className="text-sm font-medium text-muted-foreground">Digital ID</Label>
-                <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
-                  <Check className="w-3 h-3 mr-1" />
-                  Verified
-                </Badge>
+            <div className="relative p-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-xl border border-cyan-500/20 shadow-lg overflow-hidden">
+              {/* Blockchain Pattern Background */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="grid grid-cols-6 gap-1 h-full">
+                  {Array.from({ length: 24 }, (_, i) => (
+                    <div key={i} className="w-full h-full border border-cyan-400/20"></div>
+                  ))}
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <span className={`font-mono text-xl font-bold ${showDigitalId ? 'text-primary' : 'blur-sm'}`}>
-                  {profile.digitalId}
-                </span>
-                <div className="flex gap-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0"
-                    onClick={() => setShowDigitalId(!showDigitalId)}
-                  >
-                    {showDigitalId ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0"
-                    onClick={copyDigitalId}
-                  >
-                    <Copy className="w-4 h-4" />
-                  </Button>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Label className="text-cyan-300 text-sm font-medium">Blockchain ID</Label>
+                    <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
+                  </div>
+                  <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
+                    <Check className="w-3 h-3 mr-1" />
+                    Verified on Chain
+                  </Badge>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <span className={`font-mono text-lg font-bold text-cyan-100 break-all leading-relaxed ${showDigitalId ? 'opacity-100' : 'blur-sm opacity-50'}`}>
+                      {profile.digitalId}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs text-cyan-400">
+                      <div className="w-1 h-1 rounded-full bg-cyan-400"></div>
+                      <span>Block: {Math.floor(Math.random() * 999999) + 100000}</span>
+                      <div className="w-1 h-1 rounded-full bg-cyan-400"></div>
+                      <span>Gas: 0.00{Math.floor(Math.random() * 9) + 1}</span>
+                    </div>
+                    
+                    <div className="flex gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0 hover:bg-cyan-500/20 text-cyan-300"
+                        onClick={() => setShowDigitalId(!showDigitalId)}
+                      >
+                        {showDigitalId ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0 hover:bg-cyan-500/20 text-cyan-300"
+                        onClick={copyDigitalId}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

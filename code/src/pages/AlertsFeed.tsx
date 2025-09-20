@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import BottomNavigation from "@/components/BottomNavigation";
+import TopNavigation from "@/components/TopNavigation";
 import { 
   ArrowLeft,
   Bell,
@@ -183,8 +184,11 @@ const AlertsFeed = () => {
 
   return (
     <div className="mobile-screen bg-background">
+      {/* Top Navigation */}
+      <TopNavigation />
+      
       {/* Header */}
-      <div className="bg-gradient-hero text-primary-foreground p-4">
+      <div className="bg-gradient-hero text-primary-foreground p-4 pt-20">
         <div className="flex items-center gap-3 mb-4">
           <Button
             variant="ghost"

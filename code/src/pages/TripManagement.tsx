@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BottomNavigation from "@/components/BottomNavigation";
+import TopNavigation from "@/components/TopNavigation";
 import { 
   MapPin, 
   Clock, 
@@ -649,8 +650,11 @@ const TripManagement = () => {
 
   return (
     <div className="mobile-screen bg-background">
+      {/* Top Navigation */}
+      <TopNavigation />
+      
       {/* Header */}
-      <div className="bg-gradient-hero text-primary-foreground p-4">
+      <div className="bg-gradient-hero text-primary-foreground p-4 pt-20">
         <div className="flex items-center gap-3 mb-4">
           <Button
             variant="ghost"

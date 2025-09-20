@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import PoliceAdminDashboard from "@/components/PoliceAdminDashboard";
 import BottomNavigation from "@/components/BottomNavigation";
+import TopNavigation from "@/components/TopNavigation";
 import SimpleSafetyMap from "@/components/SimpleSafetyMap";
 import { 
   Shield, 
@@ -80,55 +81,32 @@ const DashboardSimple = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
-      {/* Mobile App Container */}
-      <div className="max-w-md mx-auto min-h-screen bg-background/95 backdrop-blur-sm relative">
-        {/* Status Bar */}
-        <div className="flex justify-between items-center py-3 px-4">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1">
-              <div className="w-1 h-1 bg-foreground rounded-full opacity-80"></div>
-              <div className="w-1 h-1 bg-foreground rounded-full opacity-60"></div>
-              <div className="w-1 h-1 bg-foreground rounded-full opacity-40"></div>
-            </div>
-            <span className="text-xs font-medium text-foreground">SafeTravel</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-muted-foreground">
-              {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </span>
-            <div className="flex gap-1 ml-2">
-              <div className="w-3 h-2 border border-foreground rounded-sm">
-                <div className="w-2 h-1 bg-green-500 rounded-sm"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+    <div className="mobile-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      {/* Top Navigation */}
+      <TopNavigation showBack={false} />
+      
+      {/* Main Content - add top padding for pinned navigation */}
+      <div className="pt-24 px-4 space-y-6 pb-28">
         {/* Main Header */}
-        <div className="flex items-start justify-between mb-6 px-4 pt-2">
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold text-foreground mb-1">
-              Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}
-              {userProfile && `, ${userProfile.name.split(' ')[0]}`}
-            </h1>
-            <p className="text-muted-foreground text-sm mb-2">
-              {currentUser ? 'Stay safe on your journey' : 'Please login to access full features'}
-            </p>
-            {userProfile && (
-              <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="text-xs">
-                  <UserCheck className="w-3 h-3 mr-1" />
-                  ID: {userProfile.digitalId}
+        <div className="space-y-4">
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <h1 className="text-2xl font-bold text-foreground mb-2">
+                Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}
+                {userProfile && `, ${userProfile.name.split(' ')[0]}`}
+              </h1>
+              <p className="text-muted-foreground text-sm mb-3">
+                {currentUser ? 'Stay safe on your journey' : 'Please login to access full features'}
+              </p>
+              {userProfile?.isProfileComplete && (
+                <Badge variant="default" className="text-xs bg-green-500">
+                  ✓ Verified Traveler
                 </Badge>
-                {userProfile.isProfileComplete && (
-                  <Badge variant="default" className="text-xs bg-green-500">
-                    ✓ Verified
-                  </Badge>
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
+          
+          {/* Mode Toggle */}
           <div className="flex items-center gap-2">
             <Button 
               variant="outline" 
@@ -170,11 +148,9 @@ const DashboardSimple = () => {
           </div>
         </div>
 
-        {/* Content Area */}
-        <div className="px-4 pb-24 space-y-6">
-          {/* Dashboard Content - Conditional Rendering */}
-          {dashboardMode === 'tourist' ? (
-            <>
+        {/* Dashboard Content - Conditional Rendering */}
+        {dashboardMode === 'tourist' ? (
+          <>
               {/* Hero Section with Map */}
               <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 shadow-lg overflow-hidden">
                 <CardHeader className="pb-2">
@@ -323,13 +299,12 @@ const DashboardSimple = () => {
               </div>
             </>
           )}
-        </div>
-      </div>
 
-      {/* Global Bottom Navigation with SOS */}
-      <BottomNavigation onSOS={handleSOS} />
-    </div>
-  );
+        {/* Global Bottom Navigation with SOS */}
+        <BottomNavigation onSOS={handleSOS} />
+      </div>
+     </div>
+    );
 };
 
 export default DashboardSimple;

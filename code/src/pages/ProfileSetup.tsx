@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import TopNavigation from "@/components/TopNavigation";
 
 interface FormData {
   // Personal Information
@@ -516,8 +517,11 @@ const ProfileSetup = () => {
 
   return (
     <div className="mobile-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      {/* Top Navigation */}
+      <TopNavigation />
+      
       {/* Header */}
-      <div className="mobile-container pt-8 pb-4">
+      <div className="mobile-container pt-20 pb-4">
         <div className="flex items-center gap-4 mb-6">
           <Button 
             variant="ghost" 
