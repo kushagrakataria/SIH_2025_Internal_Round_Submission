@@ -131,30 +131,12 @@ npm install -g vercel
 ### Step 3: **Configure vercel.json**
 ```json
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "env": {
-    "VITE_FIREBASE_API_KEY": "@firebase_api_key",
-    "VITE_FIREBASE_AUTH_DOMAIN": "@firebase_auth_domain",
-    "VITE_FIREBASE_PROJECT_ID": "@firebase_project_id",
-    "VITE_FIREBASE_STORAGE_BUCKET": "@firebase_storage_bucket",
-    "VITE_FIREBASE_MESSAGING_SENDER_ID": "@firebase_messaging_sender_id",
-    "VITE_FIREBASE_APP_ID": "@firebase_app_id"
-  },
   "headers": [
     {
       "source": "/(.*)",
@@ -170,6 +152,14 @@ npm install -g vercel
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
         }
       ]
     }
