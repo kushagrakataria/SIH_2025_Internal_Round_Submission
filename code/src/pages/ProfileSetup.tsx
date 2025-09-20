@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import BottomNavigation from "@/components/BottomNavigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -546,10 +546,83 @@ const ProfileSetup = () => {
         </div>
       </div>
 
-      {/* Form Content */}
-      <div className="mobile-container flex-1 pb-24">
-        {renderStep()}
-      </div>
+      {/* Form Content with Tabs */}
+      <Tabs value={`step-${currentStep}`} className="flex-1 flex flex-col">
+        <TabsList className="grid w-full grid-cols-3 mx-4 mb-4">
+          <TabsTrigger 
+            value="step-1" 
+            className="text-xs flex items-center gap-1"
+            onClick={() => setCurrentStep(1)}
+          >
+            {validateStep(1) && <CheckCircle className="w-3 h-3" />}
+            KYC Details
+          </TabsTrigger>
+          <TabsTrigger 
+            value="step-2" 
+            className="text-xs flex items-center gap-1"
+            onClick={() => {
+              if (validateStep(1)) {
+                setCurrentStep(2);
+              } else {
+                toast({
+                  title: "Complete previous step",
+                  description: "Please complete KYC details first.",
+                  variant: "destructive",
+                });
+              }
+            }}
+            disabled={!validateStep(1)}
+          >
+            {validateStep(2) && <CheckCircle className="w-3 h-3" />}
+            Emergency
+          </TabsTrigger>
+          <TabsTrigger 
+            value="step-3" 
+            className="text-xs flex items-center gap-1"
+            onClick={() => {
+              if (validateStep(1) && validateStep(2)) {
+                setCurrentStep(3);
+              } else {
+                toast({
+                  title: "Complete previous steps",
+                  description: "Please complete KYC and Emergency contact details first.",
+                  variant: "destructive",
+                });
+              }
+            }}
+            disabled={!validateStep(1) || !validateStep(2)}
+          >
+            {validateStep(3) && <CheckCircle className="w-3 h-3" />}
+            Trip Details
+          </TabsTrigger>
+        </TabsList>
+
+        {/* Tab Content */}
+        <div className="mobile-container flex-1 pb-32">
+          <TabsContent value="step-1" className="mt-0">
+            {currentStep === 1 && renderStep()}
+          </TabsContent>
+          <TabsContent value="step-2" className="mt-0">
+            {currentStep === 2 && renderStep()}
+          </TabsContent>
+          <TabsContent value="step-3" className="mt-0">
+            {currentStep === 3 && renderStep()}
+          </TabsContent>
+        </div>
+      </Tabs>
+
+      {/* Validation Feedback */}
+      {!isStepValid() && !loading && (
+        <div className="fixed bottom-20 left-0 right-0 bg-orange-50 border-t border-orange-200 p-3">
+          <Alert className="bg-orange-50 border-orange-200">
+            <AlertDescription className="text-orange-700 text-sm">
+              {currentStep === 1 && "Please fill in: Full Name, Date of Birth, and Nationality"}
+              {currentStep === 2 && "Please fill in: Emergency Contact Name and Phone Number"}
+              {currentStep === 3 && "All fields are optional for this step"}
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
 
       {/* Navigation Buttons */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4">
@@ -560,20 +633,26 @@ const ProfileSetup = () => {
               size="lg" 
               onClick={handleBack}
               className="flex-1"
+              disabled={loading}
             >
-              {currentStep === 1 ? "Cancel" : "Back"}
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {currentStep === 1 ? "Cancel" : "Previous"}
             </Button>
             <Button 
               variant="hero" 
               size="lg" 
               onClick={handleNext}
               disabled={!isStepValid() || loading}
-              className="flex-1"
+              className={`flex-1 ${!isStepValid() && !loading ? 'opacity-75 cursor-not-allowed border-2 border-dashed border-gray-300' : ''}`}
+              title={!isStepValid() ? "Please fill all required fields to continue" : ""}
             >
               {loading ? (
                 "Creating Digital ID..."
               ) : currentStep === totalSteps ? (
-                "Create Digital ID"
+                <>
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  Submit & Create Digital ID
+                </>
               ) : (
                 <>
                   Next
@@ -584,9 +663,6 @@ const ProfileSetup = () => {
           </div>
         </div>
       </div>
-
-      {/* Global Bottom Navigation */}
-      <BottomNavigation />
     </div>
   );
 };

@@ -4,8 +4,6 @@ import {
   signOut,
   onAuthStateChanged,
   User,
-  GoogleAuthProvider,
-  signInWithPopup,
   updateProfile
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
@@ -142,103 +140,6 @@ class AuthService {
       console.error('Error message:', error.message);
       
       // Import and use diagnostic helper  
-      if (import.meta.env.DEV) {
-        try {
-          const { DevAuthHelper } = await import('../dev-auth-helper');
-          DevAuthHelper.diagnoseAuthError(error);
-        } catch (e) {
-          console.log('Could not load diagnostic helper');
-        }
-      }
-      
-      throw error;
-    }
-  }
-  
-  // Sign in with Google
-  async signInWithGoogle() {
-    console.log('AuthService.signInWithGoogle called');
-    
-    try {
-      const provider = new GoogleAuthProvider();
-      provider.addScope('email');
-      provider.addScope('profile');
-      
-      // Add custom parameters for better production compatibility
-      provider.setCustomParameters({
-        prompt: 'select_account',
-        login_hint: 'user@example.com'
-      });
-      
-      console.log('Opening Google sign-in popup...');
-      
-      // Use redirect instead of popup in production for better mobile compatibility
-      const isProduction = import.meta.env.PROD;
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      
-      let userCredential;
-      if (isProduction || isMobile) {
-        // For production/mobile, prefer redirect which is more reliable
-        try {
-          userCredential = await signInWithPopup(auth, provider);
-        } catch (popupError: any) {
-          console.warn('Popup failed, user may have blocked popups:', popupError);
-          throw new Error('Please allow popups for this site and try again, or use email sign-in as an alternative.');
-        }
-      } else {
-        userCredential = await signInWithPopup(auth, provider);
-      }
-      
-      const user = userCredential.user;
-      console.log('✓ Google sign-in successful:', user.uid);
-      
-      // Check if user profile exists
-      console.log('Checking if user profile exists...');
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      
-      if (!userDoc.exists()) {
-        console.log('Creating new user profile for Google sign-in...');
-        // Create new user profile for Google sign-in
-        const userProfile: UserProfile = {
-          uid: user.uid,
-          email: user.email!,
-          name: user.displayName || '',
-          digitalId: `TST${Date.now()}${Math.random().toString(36).substr(2, 4).toUpperCase()}`,
-          createdAt: new Date().toISOString(),
-          lastLoginAt: new Date().toISOString(),
-          emergencyContacts: [],
-          preferences: {
-            language: 'en',
-            notifications: {
-              emergencyAlerts: true,
-              tripReminders: true,
-              safetyUpdates: true
-            },
-            privacy: {
-              shareLocation: true,
-              publicProfile: false
-            }
-          }
-        };
-        
-        await setDoc(doc(db, 'users', user.uid), userProfile);
-        console.log('✓ New user profile created');
-      } else {
-        console.log('Updating existing user last login time...');
-        // Update last login time for existing user
-        await updateDoc(doc(db, 'users', user.uid), {
-          lastLoginAt: new Date().toISOString()
-        });
-        console.log('✓ Last login time updated');
-      }
-      
-      return user;
-    } catch (error: any) {
-      console.error('❌ Error in signInWithGoogle:', error);
-      console.error('Error code:', error.code);
-      console.error('Error message:', error.message);
-      
-      // Import and use diagnostic helper
       if (import.meta.env.DEV) {
         try {
           const { DevAuthHelper } = await import('../dev-auth-helper');

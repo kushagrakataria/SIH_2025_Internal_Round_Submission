@@ -8,7 +8,6 @@ interface AuthContextType {
   loading: boolean;
   signUp: (email: string, password: string, userData: Partial<UserProfile>) => Promise<any>;
   signIn: (email: string, password: string) => Promise<User>;
-  signInWithGoogle: () => Promise<User>;
   signOut: () => Promise<void>;
   updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -99,7 +98,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     signUp: authService.signUp.bind(authService),
     signIn: authService.signIn.bind(authService),
-    signInWithGoogle: authService.signInWithGoogle.bind(authService),
     signOut: authService.signOut.bind(authService),
     updateProfile,
     refreshProfile

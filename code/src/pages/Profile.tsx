@@ -351,23 +351,28 @@ const Profile = () => {
   ];
 
   return (
-    <div className="mobile-screen bg-background">
+    <div className="mobile-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
       {/* Header */}
-      <div className="bg-gradient-hero text-primary-foreground p-4">
-        <div className="flex items-center gap-3 mb-4">
+      <div className="mobile-container pt-8 pb-4">
+        <div className="flex items-center gap-4 mb-6">
           <Button
             variant="ghost"
             size="icon"
-            className="text-primary-foreground hover:bg-primary-foreground/20"
+            className="rounded-full"
             onClick={() => navigate('/dashboard')}
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h1 className="text-xl font-semibold">{t('profile.title')}</h1>
+          <div className="flex-1">
+            <h1 className="subheading-mobile">{t('profile.title')}</h1>
+            <p className="caption-mobile text-muted-foreground">
+              Manage your digital identity and preferences
+            </p>
+          </div>
           <Button
-            variant="ghost"
+            variant={isEditing ? "hero" : "outline"}
             size="icon"
-            className="text-primary-foreground hover:bg-primary-foreground/20 ml-auto"
+            className="rounded-full"
             onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
             disabled={isLoading}
           >
@@ -376,29 +381,40 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="mobile-container flex-1 p-4 space-y-6">
+      <div className="mobile-container flex-1 pb-24 space-y-6">
         {/* Digital ID Section */}
-        <Card>
-          <CardHeader>
+        <Card className="border-0 shadow-soft bg-card/50 backdrop-blur-sm">
+          <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2">
-              <Shield className="w-5 h-5" />
-              {t('profile.digitalId')}
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Shield className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">{t('profile.digitalId')}</h3>
+                <p className="text-sm text-muted-foreground font-normal">
+                  Your tamper-proof digital identity for secure travel
+                </p>
+              </div>
             </CardTitle>
-            <CardDescription>
-              Your tamper-proof digital identity for secure travel
-            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-primary/5 rounded-lg">
-              <div>
-                <Label className="text-sm font-medium">Digital ID</Label>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className={`font-mono text-lg ${showDigitalId ? '' : 'blur-sm'}`}>
-                    {profile.digitalId}
-                  </span>
+            <div className="p-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl border border-primary/20">
+              <div className="flex items-center justify-between mb-3">
+                <Label className="text-sm font-medium text-muted-foreground">Digital ID</Label>
+                <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
+                  <Check className="w-3 h-3 mr-1" />
+                  Verified
+                </Badge>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className={`font-mono text-xl font-bold ${showDigitalId ? 'text-primary' : 'blur-sm'}`}>
+                  {profile.digitalId}
+                </span>
+                <div className="flex gap-1">
                   <Button
                     variant="ghost"
                     size="sm"
+                    className="h-8 w-8 p-0"
                     onClick={() => setShowDigitalId(!showDigitalId)}
                   >
                     {showDigitalId ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -406,21 +422,18 @@ const Profile = () => {
                   <Button
                     variant="ghost"
                     size="sm"
+                    className="h-8 w-8 p-0"
                     onClick={copyDigitalId}
                   >
                     <Copy className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
-              <Badge variant="secondary" className="bg-success text-success-foreground">
-                <Check className="w-3 h-3 mr-1" />
-                Verified
-              </Badge>
             </div>
             
-            <Alert className="bg-info/10 border-info">
-              <Lock className="h-4 w-4" />
-              <AlertDescription>
+            <Alert className="bg-info/5 border-info/20 border">
+              <Lock className="h-4 w-4 text-info" />
+              <AlertDescription className="text-sm">
                 Your Digital ID is secured using blockchain technology, ensuring tamper-proof verification of your identity.
               </AlertDescription>
             </Alert>
@@ -428,53 +441,64 @@ const Profile = () => {
         </Card>
 
         {/* Personal Information */}
-        <Card>
-          <CardHeader>
+        <Card className="border-0 shadow-soft bg-card/50 backdrop-blur-sm">
+          <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2">
-              <User className="w-5 h-5" />
-              Personal Information
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <User className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">Personal Information</h3>
+                <p className="text-sm text-muted-foreground font-normal">
+                  Your basic profile information
+                </p>
+              </div>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 gap-4">
-              <div>
-                <Label htmlFor="name">Full Name</Label>
+          <CardContent className="space-y-5">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
                 <Input
                   id="name"
                   value={profile.name}
                   onChange={(e) => setProfile({ ...profile, name: e.target.value })}
                   disabled={!isEditing}
+                  className="h-12"
                 />
               </div>
               
-              <div>
-                <Label htmlFor="email">Email</Label>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm font-medium">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   value={profile.email}
                   onChange={(e) => setProfile({ ...profile, email: e.target.value })}
                   disabled={!isEditing}
+                  className="h-12"
                 />
               </div>
               
-              <div>
-                <Label htmlFor="phone">Phone Number</Label>
+              <div className="space-y-2">
+                <Label htmlFor="phone" className="text-sm font-medium">Phone Number</Label>
                 <Input
                   id="phone"
                   value={profile.phone}
                   onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
                   disabled={!isEditing}
+                  className="h-12"
                 />
               </div>
               
-              <div>
-                <Label htmlFor="nationality">Nationality</Label>
+              <div className="space-y-2">
+                <Label htmlFor="nationality" className="text-sm font-medium">Nationality</Label>
                 <Input
                   id="nationality"
                   value={profile.nationality}
                   onChange={(e) => setProfile({ ...profile, nationality: e.target.value })}
                   disabled={!isEditing}
+                  className="h-12"
                 />
               </div>
             </div>
@@ -482,20 +506,22 @@ const Profile = () => {
         </Card>
 
         {/* Emergency Contacts */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="flex items-center gap-2">
-                  <Phone className="w-5 h-5" />
-                  {t('profile.emergencyContacts')}
-                </CardTitle>
-                <CardDescription>
-                  Contacts that will be notified in case of emergency
-                </CardDescription>
+        <Card className="border-0 shadow-soft bg-card/50 backdrop-blur-sm">
+          <CardHeader className="pb-4">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Phone className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">{t('profile.emergencyContacts')}</h3>
+                  <p className="text-sm text-muted-foreground font-normal">
+                    Contacts that will be notified in case of emergency
+                  </p>
+                </div>
               </div>
               {isEditing && (
-                <Button variant="outline" size="sm" onClick={addEmergencyContact}>
+                <Button variant="outline" size="sm" onClick={addEmergencyContact} className="shrink-0">
                   <Plus className="w-4 h-4 mr-1" />
                   Add
                 </Button>
@@ -504,11 +530,11 @@ const Profile = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             {profile.emergencyContacts.map((contact) => (
-              <div key={contact.id} className="p-4 border rounded-lg space-y-3">
+              <div key={contact.id} className="p-4 bg-muted/30 rounded-xl border border-border/50 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {contact.isPrimary && (
-                      <Badge variant="default" className="text-xs">
+                      <Badge variant="default" className="text-xs bg-primary/10 text-primary border-primary/20">
                         Primary
                       </Badge>
                     )}
@@ -520,6 +546,7 @@ const Profile = () => {
                     <Button
                       variant="ghost"
                       size="sm"
+                      className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                       onClick={() => removeEmergencyContact(contact.id)}
                     >
                       <Trash2 className="w-4 h-4" />
@@ -527,34 +554,37 @@ const Profile = () => {
                   )}
                 </div>
                 
-                <div className="grid grid-cols-1 gap-3">
-                  <div>
-                    <Label className="text-xs">Name</Label>
+                <div className="space-y-3">
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Name</Label>
                     <Input
                       value={contact.name}
                       onChange={(e) => updateEmergencyContact(contact.id, { name: e.target.value })}
                       disabled={!isEditing}
                       placeholder="Contact name"
+                      className="h-10"
                     />
                   </div>
                   
-                  <div>
-                    <Label className="text-xs">Phone</Label>
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Phone</Label>
                     <Input
                       value={contact.phone}
                       onChange={(e) => updateEmergencyContact(contact.id, { phone: e.target.value })}
                       disabled={!isEditing}
                       placeholder="Phone number"
+                      className="h-10"
                     />
                   </div>
                   
-                  <div>
-                    <Label className="text-xs">Relationship</Label>
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Relationship</Label>
                     <Input
                       value={contact.relationship}
                       onChange={(e) => updateEmergencyContact(contact.id, { relationship: e.target.value })}
                       disabled={!isEditing}
                       placeholder="e.g., Spouse, Parent, Friend"
+                      className="h-10"
                     />
                   </div>
                 </div>
@@ -564,16 +594,23 @@ const Profile = () => {
         </Card>
 
         {/* Language Settings */}
-        <Card>
-          <CardHeader>
+        <Card className="border-0 shadow-soft bg-card/50 backdrop-blur-sm">
+          <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2">
-              <Globe className="w-5 h-5" />
-              {t('profile.language')}
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Globe className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">{t('profile.language')}</h3>
+                <p className="text-sm text-muted-foreground font-normal">
+                  Choose your preferred language
+                </p>
+              </div>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <Select value={profile.preferences.language} onValueChange={handleLanguageChange}>
-              <SelectTrigger>
+              <SelectTrigger className="h-12">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -588,19 +625,26 @@ const Profile = () => {
         </Card>
 
         {/* Notification Settings */}
-        <Card>
-          <CardHeader>
+        <Card className="border-0 shadow-soft bg-card/50 backdrop-blur-sm">
+          <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2">
-              <Bell className="w-5 h-5" />
-              Notification Preferences
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Bell className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">Notification Preferences</h3>
+                <p className="text-sm text-muted-foreground font-normal">
+                  Manage your alert settings
+                </p>
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {Object.entries(profile.preferences.notifications).map(([key, value]) => (
-              <div key={key} className="flex items-center justify-between">
-                <div>
-                  <Label className="capitalize">{key} Alerts</Label>
-                  <p className="text-xs text-muted-foreground">
+              <div key={key} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                <div className="flex-1">
+                  <Label className="capitalize font-medium">{key} Alerts</Label>
+                  <p className="text-sm text-muted-foreground">
                     Receive notifications about {key} updates
                   </p>
                 </div>
@@ -616,18 +660,25 @@ const Profile = () => {
         </Card>
 
         {/* Privacy Settings */}
-        <Card>
-          <CardHeader>
+        <Card className="border-0 shadow-soft bg-card/50 backdrop-blur-sm">
+          <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2">
-              <Settings className="w-5 h-5" />
-              Privacy Settings
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Settings className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">Privacy Settings</h3>
+                <p className="text-sm text-muted-foreground font-normal">
+                  Control your privacy preferences
+                </p>
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <Label>Share Location</Label>
-                <p className="text-xs text-muted-foreground">
+            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+              <div className="flex-1">
+                <Label className="font-medium">Share Location</Label>
+                <p className="text-sm text-muted-foreground">
                   Allow sharing location with emergency services
                 </p>
               </div>
@@ -637,10 +688,10 @@ const Profile = () => {
               />
             </div>
             
-            <div className="flex items-center justify-between">
-              <div>
-                <Label>Allow Tracking</Label>
-                <p className="text-xs text-muted-foreground">
+            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+              <div className="flex-1">
+                <Label className="font-medium">Allow Tracking</Label>
+                <p className="text-sm text-muted-foreground">
                   Enable real-time location tracking for safety
                 </p>
               </div>
@@ -653,22 +704,32 @@ const Profile = () => {
         </Card>
 
         {/* App Information */}
-        <Card>
-          <CardHeader>
-            <CardTitle>App Information</CardTitle>
+        <Card className="border-0 shadow-soft bg-card/50 backdrop-blur-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Smartphone className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">App Information</h3>
+                <p className="text-sm text-muted-foreground font-normal">
+                  Version and build details
+                </p>
+              </div>
+            </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <div className="flex justify-between">
-              <span>Version</span>
-              <span>1.0.0</span>
+          <CardContent className="space-y-3">
+            <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
+              <span className="font-medium">Version</span>
+              <span className="text-muted-foreground">1.0.0</span>
             </div>
-            <div className="flex justify-between">
-              <span>Build</span>
-              <span>2024.09.12</span>
+            <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
+              <span className="font-medium">Build</span>
+              <span className="text-muted-foreground">2024.09.12</span>
             </div>
-            <div className="flex justify-between">
-              <span>Last Updated</span>
-              <span>{new Date().toLocaleDateString()}</span>
+            <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
+              <span className="font-medium">Last Updated</span>
+              <span className="text-muted-foreground">{new Date().toLocaleDateString()}</span>
             </div>
           </CardContent>
         </Card>
