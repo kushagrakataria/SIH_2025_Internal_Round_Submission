@@ -164,8 +164,31 @@ class AuthService {
       provider.addScope('email');
       provider.addScope('profile');
       
+      // Add custom parameters for better production compatibility
+      provider.setCustomParameters({
+        prompt: 'select_account',
+        login_hint: 'user@example.com'
+      });
+      
       console.log('Opening Google sign-in popup...');
-      const userCredential = await signInWithPopup(auth, provider);
+      
+      // Use redirect instead of popup in production for better mobile compatibility
+      const isProduction = import.meta.env.PROD;
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      let userCredential;
+      if (isProduction || isMobile) {
+        // For production/mobile, prefer redirect which is more reliable
+        try {
+          userCredential = await signInWithPopup(auth, provider);
+        } catch (popupError: any) {
+          console.warn('Popup failed, user may have blocked popups:', popupError);
+          throw new Error('Please allow popups for this site and try again, or use email sign-in as an alternative.');
+        }
+      } else {
+        userCredential = await signInWithPopup(auth, provider);
+      }
+      
       const user = userCredential.user;
       console.log('✓ Google sign-in successful:', user.uid);
       

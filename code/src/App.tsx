@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { Suspense, lazy } from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { PageLoading } from "@/components/LoadingSpinner";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 
 // Lazy load components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -47,6 +48,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
+          <PWAInstallPrompt />
           <BrowserRouter>
             <Suspense fallback={<PageLoading text="Loading Safe Traveler Buddy..." />}>
               <Routes>

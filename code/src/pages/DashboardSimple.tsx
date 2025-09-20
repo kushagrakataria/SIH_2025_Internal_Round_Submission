@@ -70,7 +70,7 @@ const DashboardSimple = () => {
   // Show loading state briefly
   if (!mounted) {
     return (
-      <div className="mobile-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading Dashboard...</p>
@@ -80,11 +80,11 @@ const DashboardSimple = () => {
   }
 
   return (
-    <div className="mobile-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
-      {/* Mobile App Header */}
-      <div className="mobile-container">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      {/* Mobile App Container */}
+      <div className="max-w-md mx-auto min-h-screen bg-background/95 backdrop-blur-sm relative">
         {/* Status Bar */}
-        <div className="flex justify-between items-center py-3 px-1">
+        <div className="flex justify-between items-center py-3 px-4">
           <div className="flex items-center gap-2">
             <div className="flex gap-1">
               <div className="w-1 h-1 bg-foreground rounded-full opacity-80"></div>
@@ -106,7 +106,7 @@ const DashboardSimple = () => {
         </div>
 
         {/* Main Header */}
-        <div className="flex items-start justify-between mb-6 pt-2">
+        <div className="flex items-start justify-between mb-6 px-4 pt-2">
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-foreground mb-1">
               Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}
@@ -170,176 +170,160 @@ const DashboardSimple = () => {
           </div>
         </div>
 
-        {/* Dashboard Content - Conditional Rendering */}
-        {dashboardMode === 'tourist' ? (
-          <>
-            {/* SOS Emergency Button */}
-            <Card className="mb-6 bg-gradient-to-r from-red-500 to-red-600 border-none shadow-lg">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                  <Phone className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">Emergency SOS</h3>
-                  <p className="text-red-100 text-sm">Tap for immediate help</p>
-                </div>
-              </div>
-              <Button 
-                onClick={handleSOS}
-                size="lg"
-                className="bg-white text-red-600 hover:bg-red-50 font-bold rounded-full px-6 shadow-lg"
-              >
-                SOS
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Content Area */}
+        <div className="px-4 pb-24 space-y-6">
+          {/* Dashboard Content - Conditional Rendering */}
+          {dashboardMode === 'tourist' ? (
+            <>
+              {/* Hero Section with Map */}
+              <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 shadow-lg overflow-hidden">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg text-blue-800 flex items-center gap-2">
+                    <MapPin className="w-5 h-5" />
+                    Live Safety Map
+                  </CardTitle>
+                  <p className="text-sm text-blue-600">Real-time safety zones across India</p>
+                </CardHeader>
+                <CardContent className="p-2">
+                  <div className="rounded-lg overflow-hidden">
+                    <SimpleSafetyMap />
+                  </div>
+                </CardContent>
+              </Card>
 
-        {/* Status Cards */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <Card className="bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
-            <CardContent className="p-4 text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Shield className="w-6 h-6 text-green-600" />
-              </div>
-              <p className="text-sm font-medium text-foreground mb-1">Safety Status</p>
-              <Badge className="bg-green-100 text-green-700 hover:bg-green-100">Safe Zone</Badge>
-            </CardContent>
-          </Card>
+              {/* SOS Emergency Button */}
+              <Card className="bg-gradient-to-r from-red-500 to-red-600 border-none shadow-lg">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                        <Phone className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-semibold">Emergency SOS</h3>
+                        <p className="text-red-100 text-sm">Tap for immediate help</p>
+                      </div>
+                    </div>
+                    <Button 
+                      onClick={handleSOS}
+                      size="lg"
+                      className="bg-white text-red-600 hover:bg-red-50 font-bold rounded-full px-6 shadow-lg"
+                    >
+                      SOS
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
 
-          <Card className="bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
-            <CardContent className="p-4 text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <MapPin className="w-6 h-6 text-blue-600" />
+              {/* Status Cards */}
+              <div className="grid grid-cols-2 gap-4">
+                <Card className="bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
+                  <CardContent className="p-4 text-center">
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Shield className="w-6 h-6 text-green-600" />
+                    </div>
+                    <p className="text-sm font-medium text-foreground mb-1">Safety Status</p>
+                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100">Safe Zone</Badge>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
+                  <CardContent className="p-4 text-center">
+                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <MapPin className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <p className="text-sm font-medium text-foreground mb-1">Location</p>
+                    <p className="text-sm text-muted-foreground">Mumbai, India</p>
+                  </CardContent>
+                </Card>
               </div>
-              <p className="text-sm font-medium text-foreground mb-1">Location</p>
-              <p className="text-sm text-muted-foreground">Mumbai, India</p>
-            </CardContent>
-          </Card>
+
+              {/* Quick Actions */}
+              <Card className="bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg text-foreground">Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button 
+                    onClick={() => navigate('/trips')}
+                    variant="ghost" 
+                    className="w-full justify-between h-12 px-4 bg-muted/50 hover:bg-muted/80 rounded-xl"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <Navigation className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <span className="text-foreground font-medium">Manage Trips</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  </Button>
+
+                  <Button 
+                    onClick={() => navigate('/alerts')}
+                    variant="ghost" 
+                    className="w-full justify-between h-12 px-4 bg-muted/50 hover:bg-muted/80 rounded-xl"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <AlertTriangle className="w-4 h-4 text-orange-600" />
+                      </div>
+                      <span className="text-foreground font-medium">Safety Alerts</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  </Button>
+
+                  <Button 
+                    onClick={() => navigate('/profile')}
+                    variant="ghost" 
+                    className="w-full justify-between h-12 px-4 bg-muted/50 hover:bg-muted/80 rounded-xl"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <Settings className="w-4 h-4 text-purple-600" />
+                      </div>
+                      <span className="text-foreground font-medium">Settings</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* System Status */}
+              <Card className="bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg text-foreground">System Status</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-foreground">Firebase</p>
+                      <Badge className="bg-green-100 text-green-700 text-xs">Connected</Badge>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-foreground">Maps API</p>
+                      <Badge className="bg-green-100 text-green-700 text-xs">Available</Badge>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-foreground">Emergency</p>
+                      <Badge className="bg-green-100 text-green-700 text-xs">Active</Badge>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-foreground">Location</p>
+                      <Badge className="bg-orange-100 text-orange-700 text-xs">Pending</Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </>
+          ) : (
+            <>
+              {/* Police/Admin Dashboard */}
+              <div className="min-h-[600px]">
+                <PoliceAdminDashboard height="600px" />
+              </div>
+            </>
+          )}
         </div>
-
-        {/* Quick Actions */}
-        <Card className="mb-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-foreground">Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Button 
-              onClick={() => navigate('/trips')}
-              variant="ghost" 
-              className="w-full justify-between h-12 px-4 bg-muted/50 hover:bg-muted/80 rounded-xl"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Navigation className="w-4 h-4 text-blue-600" />
-                </div>
-                <span className="text-foreground font-medium">Manage Trips</span>
-              </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground" />
-            </Button>
-
-            <Button 
-              onClick={() => navigate('/alerts')}
-              variant="ghost" 
-              className="w-full justify-between h-12 px-4 bg-muted/50 hover:bg-muted/80 rounded-xl"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <AlertTriangle className="w-4 h-4 text-orange-600" />
-                </div>
-                <span className="text-foreground font-medium">Safety Alerts</span>
-              </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground" />
-            </Button>
-
-            <Button 
-              onClick={() => navigate('/profile')}
-              variant="ghost" 
-              className="w-full justify-between h-12 px-4 bg-muted/50 hover:bg-muted/80 rounded-xl"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Settings className="w-4 h-4 text-purple-600" />
-                </div>
-                <span className="text-foreground font-medium">Settings</span>
-              </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground" />
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Safety Features */}
-        <Card className="mb-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-foreground flex items-center gap-2">
-              <Shield className="w-5 h-5 text-primary" />
-              Safety Features
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-foreground">Real-time location monitoring</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-foreground">Geo-fenced safety zones</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-foreground">Emergency contact alerts</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-foreground">Trip tracking & management</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Safety Map */}
-        <div className="mb-6">
-          <SimpleSafetyMap />
-        </div>
-
-        {/* System Status */}
-        <Card className="mb-20 bg-card/80 backdrop-blur-sm border-border/50 shadow-soft">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-foreground">System Status</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-foreground">Firebase</p>
-                <Badge className="bg-green-100 text-green-700 text-xs">Connected</Badge>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-foreground">Maps API</p>
-                <Badge className="bg-green-100 text-green-700 text-xs">Available</Badge>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-foreground">Emergency</p>
-                <Badge className="bg-green-100 text-green-700 text-xs">Active</Badge>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-foreground">Location</p>
-                <Badge className="bg-orange-100 text-orange-700 text-xs">Pending</Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-          </>
-        ) : (
-          <>
-            {/* Police/Admin Dashboard */}
-            <div className="mb-20">
-              <PoliceAdminDashboard height="600px" />
-            </div>
-          </>
-        )}
       </div>
 
       {/* Global Bottom Navigation with SOS */}
